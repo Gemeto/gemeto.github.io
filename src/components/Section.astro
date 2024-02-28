@@ -1,11 +1,30 @@
 ---
 // se ejecuta en el servidor o en build time <----
 const { title } = Astro.props
+import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
 ---
 
 <section>
-  {title && <h2 class="z-20">{title}</h2>}
-  <slot />
+  <CardContainer client:load className="inter-var">
+    <CardBody client:load className="p-6 m-auto h-full w-full bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] rounded-xl border  ">
+      <CardItem
+        client:load
+        translateZ="50"
+        className="text-xl font-bold text-neutral-600 dark:text-white"
+      >
+      <h2 class="z-20">{title}</h2>
+      </CardItem>
+      <CardItem
+        client:load
+        translateZ="100"
+        rotateX={20}
+        rotateZ={-10}
+        className="w-full mt-4"
+      >
+        <slot />
+      </CardItem>
+    </CardBody>
+  </CardContainer>
 </section>
 
 <script>
@@ -16,7 +35,6 @@ const { title } = Astro.props
   section {
     position: relative;
     max-width: 700px;
-    margin: 0 auto 48px;
   }
 
   h2 {
