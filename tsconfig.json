@@ -1,6 +1,7 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
+    "noImplicitAny": false,
     "baseUrl": "C:/Users/skait/Desktop/Workspace/JSONAstroPorfolio",
     "paths": {
       "@cv": [
