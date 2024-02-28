@@ -5,7 +5,6 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://gemeto.github.io',
-  base: '/JSONAstroPorfolio',
+  base: '/',
   integrations: [tailwind(), react()]
 });
