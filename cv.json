@@ -2,7 +2,7 @@
   "basics": {
     "name": "Daniel Martínez Valeriano",
     "label": "Full Stack Developer con más de 4 años de experiencia",
-    "image": "/me.webp",
+    "image": "./me.webp",
     "email": "skaitdan@gmail.com",
     "phone": "+34 630971007",
     "url": "https://github.com/gemeto",
