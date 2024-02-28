@@ -16,13 +16,16 @@ const { name, label } = basics
 
 <Layout title={`Portafolio de ${name} - ${label}`}>
     <main>
-      <Boxes client:load />
-      <Hero />
-      <About />
-      <Experience />
-      <Education />
-      <Projects />
-      <Skills />
+      <div class="h-full relative w-full overflow-hidden flex flex-col items-center justify-center rounded-lg">
+        <div class="absolute inset-0 w-full h-full z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+        <Boxes client:load />
+        <Hero />  
+        <About />
+        <Experience />
+        <Education />
+        <Projects />
+        <Skills />
+    </div>
     </main>
   <KeyboardManager />
 </Layout>

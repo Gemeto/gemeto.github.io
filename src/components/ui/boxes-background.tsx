@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { cn } from "../../utils/cn";
 
 export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
-  const rows = new Array(90).fill(1);
-  const cols = new Array(95).fill(1);
+  const rows = new Array(150).fill(1);
+  const cols = new Array(100).fill(1);
   let colors = [
     "--sky-300",
     "--pink-300",
@@ -41,7 +41,9 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
             <motion.div
               whileHover={{
                 backgroundColor: `var(${getRandomColor()})`,
-                transition: { duration: 0 },
+              }}
+              whileTap={{
+                backgroundColor: `var(${getRandomColor()})`,
               }}
               animate={{
                 transition: { duration: 2 },
