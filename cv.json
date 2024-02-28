@@ -1,0 +1,231 @@
+{
+  "basics": {
+    "name": "Daniel Martínez Valeriano",
+    "label": "Full Stack Developer con más de 4 años de experiencia",
+    "image": "/me.webp",
+    "email": "skaitdan@gmail.com",
+    "phone": "+34 630971007",
+    "url": "https://github.com/gemeto",
+    "summary": "+4 años de experiencia como Desarrollador Web. Vivo en Palma de Mallorca, España. He trabajado en diferentes entornos: desde crear aplicaciones de escritorio y movil a medida para diferentes clientes hasta el desarrollo web para una empresa de servicios para la creación no-code de e-commerces.",
+    "location": {
+      "address": "",
+      "postalCode": "07600",
+      "city": "Llucmajor",
+      "countryCode": "ES",
+      "region": "España"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "Daniel Martínez Valeriano",
+        "url": "https://es.linkedin.com/in/daniel-mart%C3%ADnez-valeriano-0b77b5167"
+      },
+      {
+        "network": "GitHub",
+        "username": "Gemeto",
+        "url": "https://github.com/gemeto"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Palbin",
+      "position": "Programador Web",
+      "url": "https://palbin.es",
+      "startDate": "2019-08-01",
+      "endDate": "2023-09-01",
+      "summary": "Es una empresa dedicada mantener y desarrollar una plataforma de e-commerce que peemite crear tiendas y esta enfocada a publico general, por lo que las funcionalidades se implementan de forma privada en base al feedback de los usuarios y posteriormente se añaden a la web. Aquí estuve trabajando con PHP, JS, HTML y CSS para implementaciones web, y con Dart y Flutter para las implementaciones en su app movil. Trabaje en esta empresa durante 3 años.",
+      "highlights":[]
+    },
+    {
+      "name": "Softline",
+      "position": "Programador Desktop & Mobile",
+      "url": "https://softline.es",
+      "startDate": "2019-09-01",
+      "endDate": "2019-06-15",
+      "summary": "Es una empresa dedicada mantener y desarrollar una plataforma de e-commerce que peemite crear tiendas y esta enfocada a publico general, por lo que las funcionalidades se implementan de forma privada en base al feedback de los usuarios y posteriormente se añaden a la web. Aquí estuve trabajando con PHP, JS, HTML y CSS para implementaciones web, y con Dart y Flutter para las implementaciones en su app movil. Trabaje en esta empresa durante 3 años.",
+      "highlights":[]
+    }
+  ],
+  "education": [{
+    "institution": "UNIR",
+    "url": "https://www.unir.com",
+    "area": "Ingeniero de Software",
+    "studyType": "Bachelor",
+    "startDate": "2019-09-01",
+    "endDate": "2024-10-30",
+    "score": "8.0",
+    "courses": [
+      "Python certification"
+    ]
+  }],
+  "awards": [{
+  }],
+  "certificates": [{
+    "name": "Certificate",
+    "date": "2021-11-07",
+    "issuer": "Company",
+    "url": "https://certificate.com"
+  }],
+  "publications": [{
+  }],
+  "skills": [
+    {
+      "name": "HTML",
+      "level": "Avanzado",
+      "keywords": [
+        "Desarrollo Web", "Frontend"
+      ]
+    },
+    {
+      "name": "CSS",
+      "level": "Intermedio",
+      "keywords": [
+        "Desarrollo Web", "Frontend", "Diseño Responsive"
+      ]
+    },
+    {
+      "name": "JavaScript",
+      "level": "Intermedio",
+      "keywords": [
+        "Desarrollo Web", "Frontend", "Backend", "Fullstack"
+      ]
+    },
+    {
+      "name": "Php",
+      "level": "Avanzado",
+      "keywords": [
+        "Desarrollo Web", "Backend", "Frontend", "Fullstack"
+      ]
+    },
+    {
+      "name": "C#",
+      "level": "Intermedio",
+      "keywords": [
+        "Desarrollo Web", "Desarrollo Desktop", "Backend"
+      ]
+    },
+    {
+      "name": "Java",
+      "level": "Intermedio",
+      "keywords": [
+        "Desarrollo Web", "Desarrollo Desktop", "Desarrollo Mobile", "Backend", "Frontend", "Fullstack"
+      ]
+    },
+    {
+      "name": "Tailwind",
+      "level": "Principiante",
+      "keywords": [
+        "Desarrollo Web", "Frontend", "CSS Framework", "Diseño Responsive"
+      ]
+    },
+    {
+      "name": "TypeScript",
+      "level": "Intermedio",
+      "keywords": [
+        "Desarrollo Web", "Frontend", "Backend", "JavaScript Superset"
+      ]
+    },
+    {
+      "name": "Node",
+      "level": "Intermedio",
+      "keywords": [
+        "Desarrollo Web", "Backend", "JavaScript", "Servidor"
+      ]
+    },
+    {
+      "name": "MySQL",
+      "level": "Avanzado",
+      "keywords": [
+        "Bases de Datos", "SQL", "Almacenamiento de Datos", "Backend"
+      ]
+    },
+    {
+      "name": "Git",
+      "level": "Avanzado",
+      "keywords": [
+        "Control de Versiones", "Colaboración", "Código Fuente"
+      ]
+    },
+    {
+      "name": "GitHub",
+      "level": "Avanzado",
+      "keywords": [
+        "Control de Versiones", "Colaboración", "Código Fuente", "Git"
+      ]
+    },
+    {
+      "name": "React",
+      "level": "Principiante",
+      "keywords": [
+        "Desarrollo Web", "Frontend", "JavaScript Library", "UI"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "Spanish",
+      "fluency": "Native speaker"
+    },
+    {
+      "language": "English",
+      "fluency": "Advanced"
+    }
+  ],
+  "interests": [{
+    "name": "Wildlife",
+    "keywords": [
+      "Ferrets",
+      "Unicorns"
+    ]
+  }],
+  "references": [{
+    "name": "Jane Doe",
+    "reference": "Reference…"
+  }],
+  "projects": [
+    {
+      "name": "Porfolio .NET editor",
+      "isActive": false,
+      "description": "Sencilla interfaz de presentacion con un menú de gestión para añadir, modificar o eliminar entradas.",
+      "highlights": [
+        ".NET"
+      ],
+      "url": "https://github.com/Gemeto/Porfolio-.NET",
+      "github": "https://github.com/Gemeto/Porfolio-.NET"
+    },
+    {
+      "name": "Minijuego easter egg",
+      "isActive": false,
+      "description": "Pequeño videojuego para Android desarrollado para un proyecto universitario, con servidor para modo online y un easter egg al pulsar a tu personaje!",
+      "highlights": [
+        "Android",
+        "LibGDX"
+      ],
+      "url": "https://github.com/Gemeto/Libgdx-minigames",
+      "github": "https://github.com/Gemeto/Libgdx-minigames"
+    },
+    {
+      "name": "BD de alimentación",
+      "isActive": false,
+      "description": "Una web con una sencilla interfaz para visualizar y gestionar una base de datos relacionada con alimentos y sus posibles riesgos sanitarios.",
+      "highlights": [
+        "PHP",
+        "Yii"
+      ],
+      "url": "https://github.com/Gemeto/PhPYiiFoodDB",
+      "github": "https://github.com/Gemeto/PhPYiiFoodDB"
+    },
+    {
+      "name": "Agenda app",
+      "isActive": false,
+      "description": "Aplicación Android para gestionar tareas a modo de agenda, tambien activa alarmas en el teléfono a petición del usuario sin tener que salir del app.",
+      "highlights": [
+        "Android",
+        "Material Design"
+      ],
+      "url": "https://github.com/Gemeto/AgendaApp",
+      "github": "https://github.com/Gemeto/AgendaApp"
+    }
+  ]
+}
