@@ -141,7 +141,7 @@ export const TypewriterEffectSmooth = ({
   };
 
   const isMobile = window.innerWidth < 700;
-  const whitespace = window.innerWidth < 700 ? "wrap" :"nowrap";
+  const whitespace = isMobile ? "wrap" :"nowrap";
   if (!isMobile) {
     variants = {
       inView: {
