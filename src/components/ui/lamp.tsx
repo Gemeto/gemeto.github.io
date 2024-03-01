@@ -8,7 +8,7 @@ export const LampContainer = ({
 }: {
   className?: string;
 }) => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
   useEffect(() => {
     setIsMobile(window.innerWidth < 700);
     window.addEventListener('resize', function(){
