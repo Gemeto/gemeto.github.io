@@ -140,7 +140,7 @@ export const TypewriterEffectSmooth = ({
     );
   };
   const [isMobile, setIsMobile] = useState(false);
-  const [whitespace, setWhitespace] = useState("nowrap");
+  const [whitespace, setWhitespace] = useState("wrap");
   useEffect(() => {
     setIsMobile(window.innerWidth < 700);
     setWhitespace(window.innerWidth < 700 ? "wrap" : "nowrap");
