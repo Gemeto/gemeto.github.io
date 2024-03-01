@@ -143,10 +143,12 @@ export const TypewriterEffectSmooth = ({
   const [variants, setVariants] = useState({});
   const [isPresent, safeToRemove] = usePresence();
   useEffect(() => {
-    setIsMobile(window.innerWidth < 700);
-    setWhitespace(window.innerWidth < 700 ? "wrap" : "nowrap");
+    if(isPresent){
+        setIsMobile(window.innerWidth < 700);
+        setWhitespace(window.innerWidth < 700 ? "wrap" : "nowrap");
+      }
     window.addEventListener('resize', function(){
-      if(isPresent){
+      if(isPresent && isMobile !== (window.innerWidth < 700)){
         setIsMobile(window.innerWidth < 700);
         setWhitespace(window.innerWidth < 700 ? "wrap" : "nowrap");
       }
