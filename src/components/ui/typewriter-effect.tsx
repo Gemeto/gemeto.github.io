@@ -1,10 +1,8 @@
 "use client";
 
 import { cn } from "../../utils/cn";
-import { motion, stagger, useAnimate, useInView } from "framer-motion";
+import { motion, stagger, useAnimate, useInView, AnimatePresence, usePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-
-let variants = {};
 
 export const TypewriterEffect = ({
   words,
@@ -139,41 +137,81 @@ export const TypewriterEffectSmooth = ({
       </div>
     );
   };
-  const isMobile = window.innerWidth < 700;
-  const whitespace = isMobile ? "wrap" : "nowrap";
-  if (!isMobile) {
-    variants = {
-      inView: {
-        width: "fit-content",
-      },
-      initial: {
-        width: "0%",
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [whitespace, setWhitespace] = useState("wrap");
+  const [variants, setVariants] = useState({});
+  const [isPresent, safeToRemove] = usePresence();
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 700);
+    setWhitespace(window.innerWidth < 700 ? "wrap" : "nowrap");
+    window.addEventListener('resize', function(){
+      if(isPresent){
+        setIsMobile(window.innerWidth < 700);
+        setWhitespace(window.innerWidth < 700 ? "wrap" : "nowrap");
       }
-    };
-  }
+    });
+  }, []);
+  useEffect(() => {
+    if (!isMobile) {
+      setVariants({
+        inView: {
+          width: "fit-content",
+          transition: { //TODO fix this transition not applying due to exit transition prority when back to laptop view //NOT TOO RELEVANT
+            delay: 1,
+            ease: "linear",
+            duration: 2,
+          }
+        },
+        initial: {
+          width: "0%",
+          transition: {
+            delay: 0,
+            duration: 0,
+          }
+        }
+      });
+    } else {
+      setVariants({
+        inView: {
+          width: "fit-content",
+          transition: {
+            delay: 0,
+            duration: 0,
+          }
+        },
+        initial: {
+          width: "fit-content",
+          transition: {
+            delay: 0,
+            duration: 0,
+          }
+        }
+      });
+    }
+  }, [isMobile]);
 
   return (
     <div className={cn("flex space-x-1", className)}>
-      <motion.div
-        variants={variants}
-        className="overflow-hidden pb-2"
-        initial="initial"
-        whileInView="inView"
-        transition={{
-          duration: 2,
-          ease: "linear",
-          delay: 1,
-        }}
-      >
-        <div
-          className="text-base font-medium text-balance"
-          style={{
-            whiteSpace: whitespace,
-          }}
+      <AnimatePresence>
+        <motion.div
+          key={whitespace}
+          variants={variants}
+          className="overflow-hidden pb-2"
+          initial="initial"
+          exit={{ width: "0%", transition: {delay: 0, duration: 0} }}
+          whileInView="inView"
         >
-          {renderWords()}{" "}
-        </div>{" "}
-      </motion.div>
+          <div
+            className="text-base font-medium text-balance"
+            style={{
+              whiteSpace: whitespace,
+            }}
+          >
+            {renderWords()}{" "}
+          </div>{" "}
+        </motion.div>
+      </AnimatePresence>
       <motion.span
         initial={{
           opacity: 0,
