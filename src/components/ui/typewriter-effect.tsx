@@ -2,7 +2,7 @@
 
 import { cn } from "../../utils/cn";
 import { motion, stagger, useAnimate, useInView } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 let variants = {};
 
@@ -139,19 +139,31 @@ export const TypewriterEffectSmooth = ({
       </div>
     );
   };
+  const [isMobile, setIsMobile] = useState(false);
+  const [whitespace, setWhitespace] = useState("nowrap");
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 700);
+    setWhitespace(window.innerWidth < 700 ? "wrap" : "nowrap");
+    window.addEventListener('resize', function(){
+      setIsMobile(window.innerWidth < 700);
+      setWhitespace(window.innerWidth < 700 ? "wrap" : "nowrap");
+    });
+  }, []);
+  useEffect(() =>{
+    if (!isMobile) {
+      variants = {
+        inView: {
+          width: "fit-content",
+        },
+        initial: {
+          width: "0%",
+        }
+      };
+    } else {
+      variants = {};
+    }
+  }, [isMobile]);
 
-  const isMobile = window.innerWidth < 700;
-  const whitespace = isMobile ? "wrap" :"nowrap";
-  if (!isMobile) {
-    variants = {
-      inView: {
-        width: "fit-content",
-      },
-      initial: {
-        width: "0%",
-      }
-    };
-  }
   return (
     <div className={cn("flex space-x-1", className)}>
       <motion.div

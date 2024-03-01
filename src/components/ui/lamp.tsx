@@ -8,10 +8,13 @@ export const LampContainer = ({
 }: {
   className?: string;
 }) => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 700);
-  window.addEventListener('resize', function(){
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
     setIsMobile(window.innerWidth < 700);
-  });
+    window.addEventListener('resize', function(){
+      setIsMobile(window.innerWidth < 700);
+    });
+  }, []);
   useEffect(() => {
     if (isMobile) {
       animate("#lamp", {width: "6rem"}, {duration: 0.8});

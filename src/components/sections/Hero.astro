@@ -30,7 +30,7 @@ const printInfo = [email, phone, linkedUrl].filter(Boolean).join(" • ")
   <div class="container">
     <div class="info z-20">
       <h1>{name}</h1>
-      <h2><TypewriterEffectSmooth client:only words={label.split(" ").map(e => JSON.parse('{"text":"'+e+'"}'))} /></h2>
+      <h2><TypewriterEffectSmooth client:load words={label.split(" ").map(e => JSON.parse('{"text":"'+e+'"}'))} /></h2>
       <span>
         <WorldMap />
         {city}, {region}
