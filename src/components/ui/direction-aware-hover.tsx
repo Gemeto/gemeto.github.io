@@ -74,6 +74,7 @@ export const DirectionAwareHover = ({
           className="relative h-full w-full"
           initial="initial"
           whileHover={direction}
+          whileTap={direction}
           exit="exit"
         >
           <motion.div
