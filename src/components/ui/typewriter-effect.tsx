@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "../../utils/cn";
-import { motion, stagger, useAnimate, useInView, animate } from "framer-motion";
+import { motion, stagger, useAnimate, useInView } from "framer-motion";
 import { useEffect, useState } from "react";
 
 let variants = {};
@@ -139,28 +139,24 @@ export const TypewriterEffectSmooth = ({
       </div>
     );
   };
-  const [isMobile, setIsMobile] = useState(false);
-  const [whitespace, setWhitespace] = useState("wrap");
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 700);
-    setWhitespace(window.innerWidth < 700 ? "wrap" : "nowrap");
-    window.addEventListener('resize', function(){
-      setIsMobile(window.innerWidth < 700);
-      setWhitespace(window.innerWidth < 700 ? "wrap" : "nowrap");
-    });
-  }, []);
-  useEffect(() => {
-    if (!isMobile) {
-      animate("#typewritter", {width: 'fit-content'}, {duration: 2});
-    }
-  }, [isMobile]);
+  const isMobile = window.innerWidth < 700;
+  const whitespace = isMobile ? "wrap" : "nowrap";
+  if (!isMobile) {
+    variants = {
+      inView: {
+        width: "fit-content",
+      },
+      initial: {
+        width: "0%",
+      }
+    };
+  }
 
   return (
-    <div className={cn("flex space-x-1 aspect-auto", className)}>
+    <div className={cn("flex space-x-1", className)}>
       <motion.div
-        id="typewritter"
         variants={variants}
-        className="overflow-hidden pb-2 w-0"
+        className="overflow-hidden pb-2"
         initial="initial"
         whileInView="inView"
         transition={{
