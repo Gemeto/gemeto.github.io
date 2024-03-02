@@ -192,7 +192,7 @@ export const TypewriterEffectSmooth = ({
   }, [isMobile]);
 
   return (
-    <div className={cn("flex space-x-1", className)}>
+    <div className={cn("flex space-x-1 md:aspect-[64.5/6.00]", className)}>
       <AnimatePresence>
         <motion.div
           key={whitespace}
