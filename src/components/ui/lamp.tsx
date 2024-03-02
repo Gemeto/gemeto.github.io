@@ -27,7 +27,7 @@ export const LampContainer = ({
   return (
     <div
       className={cn(
-        "relative flex flex-col items-center justify-center w-full z-0 bg-gradient-to-b from-zinc-200 from-50% to-[#F0F8FF] to-90%",
+        "relative flex flex-col items-center justify-center w-full z-0 bg-gradient-to-b from-zinc-200 dark:from-[#000000] from-50% to-[#F0F8FF] dark:to-[#000000] to-90%",
         className
       )}
     >
@@ -41,9 +41,9 @@ export const LampContainer = ({
             duration: 0.8,
             ease: "easeInOut",
           }}
-          className="absolute inset-auto z-30 h-36 -translate-y-[6rem] rounded-full bg-[#f0f8ff] blur-2xl"
+          className="absolute inset-auto z-30 h-36 -translate-y-[6rem] rounded-full dark:bg-red-900 bg-[#f0f8ff] blur-2xl"
         ></motion.div>
-        <div className="absolute inset-auto z-50 h-36 -translate-y-1/2 rounded-full bg-[#f0f8ff] opacity-50 blur-3xl"></div>
+        <div className="absolute inset-auto z-50 h-36 -translate-y-1/2 rounded-full dark:bg-red-900 bg-[#f0f8ff] opacity-50 blur-3xl"></div>
         <motion.div
           id="light"
           initial={{ width: isMobile ? "5rem" : "15rem" }}
@@ -53,10 +53,10 @@ export const LampContainer = ({
             duration: 0.8,
             ease: "easeInOut",
           }}
-          className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-[#f0f8ff]"
+          className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] dark:bg-red-950 bg-[#f0f8ff]"
         ></motion.div>
 
-        <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-zinc-200"></div>
+        <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] dark:bg-[#000000] bg-zinc-200"></div>
       </div>
     </div>
   );
