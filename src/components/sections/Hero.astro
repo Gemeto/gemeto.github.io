@@ -158,6 +158,16 @@ const printInfo = [email, phone, linkedUrl].filter(Boolean).join(" • ")
     border: 1px solid #ddd;
   }
 
+  @media (prefers-color-scheme: dark) {
+    h1 {
+    color: white;
+    }
+    
+    span {
+      color: orange;
+    }
+  }
+
   @media (width <= 700px) {
     .container {
       flex-direction: column-reverse;
