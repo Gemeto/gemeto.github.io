@@ -217,6 +217,17 @@
       "github": "https://github.com/Gemeto/PhPYiiFoodDB"
     },
     {
+      "name": "RASFF RSS Notifier",
+      "isActive": true,
+      "description": "Aplicación Android que recopila los ultimos avisos del sistema RASFF referentes a España. Permite al usuario visualizar los ultimos avisos y recibir notificaciones cuando exista alguno nuevo.",
+      "highlights": [
+        "Kotlin",
+        "Android"
+      ],
+      "url": "https://github.com/Gemeto/RASFF-RSS-Notifier/",
+      "github": "https://github.com/Gemeto/RASFF-RSS-Notifier/"
+    },
+    {
       "name": "Agenda app",
       "isActive": false,
       "description": "Aplicación Android para gestionar tareas a modo de agenda, tambien activa alarmas en el teléfono a petición del usuario sin tener que salir del app.",
