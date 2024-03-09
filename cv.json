@@ -185,16 +185,6 @@
   }],
   "projects": [
     {
-      "name": "Porfolio .NET editor",
-      "isActive": false,
-      "description": "Sencilla interfaz de presentacion con un menú de gestión para añadir, modificar o eliminar entradas.",
-      "highlights": [
-        ".NET"
-      ],
-      "url": "https://github.com/Gemeto/Porfolio-.NET",
-      "github": "https://github.com/Gemeto/Porfolio-.NET"
-    },
-    {
       "name": "Minijuego easter egg",
       "isActive": false,
       "description": "Pequeño videojuego para Android desarrollado para un proyecto universitario, con servidor para modo online y un easter egg al pulsar a tu personaje!",
