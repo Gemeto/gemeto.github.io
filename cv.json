@@ -189,6 +189,7 @@
       "isActive": false,
       "description": "Pequeño videojuego para Android desarrollado para un proyecto universitario, con servidor para modo online y un easter egg al pulsar a tu personaje!",
       "highlights": [
+        "Java",
         "Android",
         "LibGDX"
       ],
@@ -201,7 +202,8 @@
       "description": "Una web con una sencilla interfaz para visualizar y gestionar una base de datos relacionada con alimentos y sus posibles riesgos sanitarios.",
       "highlights": [
         "PHP",
-        "Yii"
+        "Yii",
+        "MySQL"
       ],
       "url": "https://github.com/Gemeto/PhPYiiFoodDB",
       "github": "https://github.com/Gemeto/PhPYiiFoodDB"
@@ -212,7 +214,8 @@
       "description": "Aplicación Android que recopila los ultimos avisos del sistema RASFF referentes a España. Permite al usuario visualizar los ultimos avisos y recibir notificaciones cuando exista alguno nuevo.",
       "highlights": [
         "Kotlin",
-        "Android"
+        "Android",
+        "Material Design"
       ],
       "url": "https://github.com/Gemeto/RASFF-RSS-Notifier/",
       "github": "https://github.com/Gemeto/RASFF-RSS-Notifier/"
@@ -222,6 +225,7 @@
       "isActive": false,
       "description": "Aplicación Android para gestionar tareas a modo de agenda, tambien activa alarmas en el teléfono a petición del usuario sin tener que salir del app.",
       "highlights": [
+        "Kotlin",
         "Android",
         "Material Design"
       ],
