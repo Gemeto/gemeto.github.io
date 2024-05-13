@@ -1,4 +1,4 @@
-Porfolio con configuración JSON minímalista, creado con Astro haciendo uso de HTML y JS, junto con React y la librería Framer Motion.
+Porfolio con configuración JSON minímalista, creado con Astro haciendo uso de HTML, JS y Tailwind, junto con React y la librería Framer Motion.
 
 Web: https://gemeto.github.io/
 
