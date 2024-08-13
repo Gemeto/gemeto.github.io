@@ -18,8 +18,9 @@
     const ballGeometry = new THREE.SphereGeometry(0.5, 32, 32);
     const ballMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent:true, opacity:0, wireframe: true});
     const ball = new THREE.Mesh(ballGeometry, ballMaterial);
+    ball.position.set(-renderer.domElement.width, renderer.domElement.height, 0);
     scene.add(ball);
-  
+    
     // Ajustar la posición y rotación de la cámara
     camera.position.set(0, 0, 14);
   
@@ -149,12 +150,12 @@
   
             if (ballCoordenates.x >= left && ballCoordenates.x <= right &&
                 ballCoordenates.y >= top && ballCoordenates.y <= bottom) {
-                    if(hoverDiv.getAttribute("style") != "background-color: #d6fdff;"){
-                        hoverDiv.setAttribute("style", "background-color: #d6fdff;");
+                    if(hoverDiv.getAttribute("style") != "background-color: #bf7f8c;"){
+                        hoverDiv.setAttribute("style", "background-color: #bf7f8c;");
                     }
-            }else if(hoverDiv.getAttribute("style") == "background-color: #d6fdff;"){
+            }/*else if(hoverDiv.getAttribute("style") == "background-color: #a64c5e;"){
                 hoverDiv.setAttribute("style", "background-color: rgba(0, 0, 0, 0);");
-            }
+            }*/
         }
     }
   
