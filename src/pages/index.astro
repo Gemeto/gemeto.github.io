@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import { LampContainer } from "../components/ui/lamp";
 import { basics } from "../../cv.json"
 import { Boxes } from "../components/ui/boxes-background"
+import ThreejsBall from "../components/sections/ThreejsBall.astro"
 const { name, label } = basics
 ---
 
@@ -31,15 +32,15 @@ const { name, label } = basics
   </LampContainer>
   <main>
     <div class="h-full relative w-full overflow-hidden flex flex-col items-center justify-center rounded-lg">
-      <div class="absolute inset-0 w-full h-full z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-      <Boxes client:only />
-      <Hero />  
-      <About />
-      <Experience />
-      <Education />
-      <Projects />
-      <Skills />
-    </div>
+        <Boxes client:only />
+        <ThreejsBall />
+        <Hero />
+        <About />
+        <Experience />
+        <Education />
+        <Projects />
+        <Skills />
+      </div>
   </main>
   <KeyboardManager />
 </Layout>

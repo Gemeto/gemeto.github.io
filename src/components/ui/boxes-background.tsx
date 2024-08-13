@@ -35,7 +35,7 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
       {rows.map((_, i) => (
         <motion.div
           key={`row` + i}
-          className="w-16 h-8  border-l  border-slate-700 relative"
+          className="w-16 h-8 border-l border-slate-700 relative"
         >
           {cols.map((_, j) => (
             <motion.div
@@ -45,11 +45,8 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
               whileTap={{
                 backgroundColor: `var(${getRandomColor()})`,
               }}
-              animate={{
-                transition: { duration: 2 },
-              }}
               key={`col` + j}
-              className="w-16 h-8  border-r border-t border-slate-700 relative"
+              className="w-16 h-8 border-r border-t border-slate-700 relative paint-box"
             >
               {j % 2 === 0 && i % 2 === 0 ? (
                 <svg

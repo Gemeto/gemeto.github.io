@@ -1,0 +1,179 @@
+<div class="absolute inset-0 w-full h-full pointer-events-none" id="backgroundElement"/>
+
+<script>
+    import { render } from 'react-dom';
+  import * as THREE from 'three';
+    import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+    // Configuración de la escena
+    const height = document.documentElement.scrollHeight;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / height, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, height);
+    renderer.setClearColor(0x000000, 0);
+    const backgroundElement = document.getElementById("backgroundElement");
+    backgroundElement?.appendChild(renderer.domElement);
+  
+    // Crear la pelota
+    const ballGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const ballMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent:true, opacity:0, wireframe: true});
+    const ball = new THREE.Mesh(ballGeometry, ballMaterial);
+    scene.add(ball);
+  
+    // Ajustar la posición y rotación de la cámara
+    camera.position.set(0, 0, 14);
+  
+    // Calcula los límites del área de juego
+    const aspectRatio = window.innerWidth / height;
+    const frustumHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+    const frustumWidth = frustumHeight * aspectRatio;
+    const halfWidth = frustumWidth / 2;
+    const halfHeight = frustumHeight / 2;
+  
+    // Física simple
+    let velocity = new THREE.Vector3(0, 0, 0);
+  
+    // Manejar el clic
+    document.addEventListener('click', onDocumentMouseDown, false);
+  
+    // Luz ambiental
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+  
+    // Luz direccional
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 11);
+    directionalLight.position.set(1, 3, 3);
+    scene.add(directionalLight);
+  
+    // Cargar el modelo
+    const loader = new GLTFLoader();
+    loader.load(
+        '/golf_ball.glb',
+        function (gltf) {
+            const model = gltf.scene;
+            // Recorre todos los objetos del modelo
+            model.traverse((node) => {
+                if (node.isMesh) {
+                    // Asegúrate de que los materiales sean visibles
+                    node.material.side = THREE.DoubleSide;
+                    
+                    // Si hay texturas, asegúrate de que se carguen
+                    if (node.material.map) {
+                        node.material.map.encoding = THREE.sRGBEncoding;
+                    }
+                }
+            });
+            model.scale.set(1, 1, 1)
+            model.position.set(0,-0.40,0)
+            ball.add(model);
+        },
+        function (xhr) {
+            console.log((xhr.loaded / xhr.total * 100) + '% cargado');
+        },
+        function (error) {
+            console.error('Un error ocurrió al cargar el modelo', error);
+        }
+    );
+  
+    function onDocumentMouseDown(event) {
+        event.preventDefault();
+  
+        const mouse = new THREE.Vector2(
+            (event.clientX / window.innerWidth) * 2 - 1,
+            -(event.clientY / window.innerHeight) * 2 + 1
+        );
+  
+        const impulse = new THREE.Vector3(mouse.x, mouse.y, 0).normalize();
+        velocity.add(impulse.multiplyScalar(0.1));
+    }
+  
+    // Función de animación
+    function animate() {
+        requestAnimationFrame(animate);
+        nextBallPosition();
+        ballFloorCollision();
+        renderer.render(scene, camera);
+    }
+    animate();
+  
+    function nextBallPosition() {
+        velocity.x *= 0.99; //Hacer que pare del todo
+        velocity.y *= 0.99; //Hacer que pare del todo
+  
+        // Rotación de la esfera
+        const rotation = 0.02;
+        if (velocity.x > 0) {
+            ball.rotation.x -= rotation;
+        } else if (velocity.x < 0) {
+            ball.rotation.x += rotation;
+        }
+        if (velocity.y > 0) {
+            ball.rotation.y -= rotation;
+        } else if (velocity.y < 0) {
+            ball.rotation.y += rotation;
+        }
+  
+        ball.position.add(velocity);
+  
+        // Rebote simple en los bordes del plano
+        const rightWidthCompensation = 0.85; //Hacer que sea dinamico
+        const bottomHeightCompensation = 0.9; //Hacer que sea dinamico
+        if (ball.position.x > 0 && ball.position.x > (halfWidth * rightWidthCompensation - ball.geometry.parameters.radius)) {
+            velocity.x *= -0.8;
+            ball.position.x = Math.sign(ball.position.x) * (halfWidth * rightWidthCompensation - ball.geometry.parameters.radius);
+        } else if (Math.abs(ball.position.x) > halfWidth - ball.geometry.parameters.radius) {
+            velocity.x *= -0.8;
+            ball.position.x = Math.sign(ball.position.x) * (halfWidth - ball.geometry.parameters.radius);
+        }
+  
+        if (ball.position.y < 0 && Math.abs(ball.position.y) > (halfHeight * bottomHeightCompensation - ball.geometry.parameters.radius)) {
+            velocity.y *= -0.8;
+            ball.position.y = Math.sign(ball.position.y) * (halfHeight * bottomHeightCompensation - ball.geometry.parameters.radius);
+        } else if (Math.abs(ball.position.y) > halfHeight - ball.geometry.parameters.radius) {
+            velocity.y *= -0.8;
+            ball.position.y = Math.sign(ball.position.y) * (halfHeight - ball.geometry.parameters.radius);
+        }
+    }
+  
+    function ballFloorCollision() { //Desacoplar esto que tiene que ver con el contacto con el fondo
+        const hoverDivs = document.getElementsByClassName("paint-box");
+        for (let i = 0; i < hoverDivs.length; i++) {
+            const hoverDiv = hoverDivs[i];
+            const rect = hoverDiv?.getBoundingClientRect();
+            let ballCoordenates = getObjectCoordenates(ball);
+            //Adjust coordinates to scroll position
+            let top = rect.top + window.scrollY;
+            let bottom = rect.bottom + window.scrollY;
+            let left = rect.left + window.scrollX;
+            let right = rect.right + window.scrollX;
+  
+            if (ballCoordenates.x >= left && ballCoordenates.x <= right &&
+                ballCoordenates.y >= top && ballCoordenates.y <= bottom) {
+                    if(hoverDiv.getAttribute("style") != "background-color: #d6fdff;"){
+                        hoverDiv.setAttribute("style", "background-color: #d6fdff;");
+                    }
+            }else if(hoverDiv.getAttribute("style") == "background-color: #d6fdff;"){
+                hoverDiv.setAttribute("style", "background-color: rgba(0, 0, 0, 0);");
+            }
+        }
+    }
+  
+    function getObjectCoordenates(object) {
+      let worldPosition = new THREE.Vector3();
+      object.getWorldPosition(worldPosition);
+      //Project coordinates from 3D to 2D
+      let screenPosition = worldPosition.project(camera);
+      //Convert coordinates to screen position
+      let x = (screenPosition.x + 1) * renderer.domElement.width / 2;
+      let y = (-screenPosition.y + 1) * renderer.domElement.height / 2;
+      let rect = renderer.domElement.getBoundingClientRect();
+      //Adjust coordinates to canvas position
+      x += rect.left;
+      y += rect.top;
+      //Adjust coordinates to scroll position
+      x += window.scrollX;
+      y += window.scrollY;
+  
+      return {x: x, y: y};
+    }
+</script>
