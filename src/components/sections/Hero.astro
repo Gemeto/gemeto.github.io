@@ -116,6 +116,12 @@ const printInfo = [email, phone, linkedUrl].filter(Boolean).join(" • ")
     text-wrap: balance;
   }
 
+  @media (prefers-color-scheme: dark) {
+    h2 {
+      color: #ECDFCC;
+    }
+  }
+
   img {
     aspect-ratio: 1 / 1;
     object-fit: cover;
