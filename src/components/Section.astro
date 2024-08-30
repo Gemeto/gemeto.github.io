@@ -4,7 +4,7 @@ const { title } = Astro.props
 import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
 ---
 
-<section>
+<section class="slide-from-right-faded">
   <CardContainer client:visible className="inter-var">
     <CardBody client:visible className="p-6 m-auto h-full w-full bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-red-500/[0.1] dark:bg-slate-800 dark:border-white/[0.2] border-black/[0.1] rounded-xl border">
       <CardItem
@@ -48,5 +48,21 @@ import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
     section {
       margin-bottom: 38px;
     }
+  }
+
+  .slide-from-right-faded {
+    position: relative;
+    animation: slideFromRightFaded 1s ease-out;
+  }
+  
+  @keyframes slideFromRightFaded {
+      0% {
+          right: -100%;
+          opacity: 0;
+      }
+      100% {
+          right: 0;
+          opacity: 1;
+      }
   }
 </style>
