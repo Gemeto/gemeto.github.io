@@ -33,7 +33,7 @@
       "position": "Web Programmer",
       "url": "https://palbin.es",
       "startDate": "2019-08-01",
-      "endDate": "2023-09-01",
+      "endDate": "2024-08-01",
       "summary": "Palbin is a company dedicated to maintaining and developing an e-commerce platform that allows the creation of online stores. It caters to a general audience, with functionalities initially implemented privately based on user feedback and later added to the website. During my time here, I worked with PHP, JS, HTML, and CSS for web implementations, as well as Dart and Flutter for mobile app development. I spent 3 years at this company.",
       "highlights": []
     },
@@ -42,19 +42,19 @@
       "position": "Desktop & Mobile Programmer",
       "url": "https://softline.es",
       "startDate": "2019-09-01",
-      "endDate": "2019-06-15",
+      "endDate": "2020-08-15",
       "summary": "Softline is a Mallorca-based company specializing in custom software development for small businesses. During my time here, I learned to use the WinDev language for desktop development on Windows and mobile development for Android. I worked at Softline for 7 months.",
       "highlights": []
     }
   ],
   "education": [{
     {
-      "institution": "UNIR",
-      "url": "https://www.unir.com",
+      "institution": "Oviedo university",
+      "url": "https://www.uniovi.es",
       "area": "Software Engineer",
       "studyType": "Bachelor",
-      "startDate": "2019-09-01",
-      "endDate": "2024-10-30",
+      "startDate": "2015-09-01",
+      "endDate": "2020-10-30",
       "score": "8.0",
       "courses": [
         "Python certification"
