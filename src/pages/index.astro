@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     window.scrollTo({
       top: scrollToY,
-      behavior: behavior
+      behavior: behavior as ScrollBehavior
     });
     
     // Permite que otros eventos de scroll se procesen después de la animación
