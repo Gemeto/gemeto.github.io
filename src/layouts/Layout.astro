@@ -49,6 +49,8 @@ const { image, summary, url } = basics
       monospace;
     background: #fff;
     letter-spacing: -0.025rem;
+    scrollbar-width: none; /* Oculta el scroll en Firefox */
+    -ms-overflow-style: none; /* Oculta el scroll en IE y Edge */
   }
 
   body,
@@ -94,7 +96,7 @@ const { image, summary, url } = basics
 
   p {
     color: #666;
-    font-size: 0.9rem;
+    font-size: 1rem;
     line-height: 1.5;
     margin: 0;
     text-wrap: pretty;

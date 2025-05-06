@@ -3,267 +3,221 @@
 <script>
     import * as THREE from 'three';
     import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-    // Configuración de la escena
-    const height = document.documentElement.scrollHeight;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / height, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, height);
-    renderer.setClearColor(0x000000, 0);
-    const backgroundElement = document.getElementById("backgroundElement");
-    backgroundElement?.appendChild(renderer.domElement);
-  
-    // Crear la pelota
-    const ballGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-    const ballMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent:true, opacity:0, wireframe: true});
-    const ball = new THREE.Mesh(ballGeometry, ballMaterial);
-    ball.position.set(-renderer.domElement.width, renderer.domElement.height, 0);
-    scene.add(ball);
     
-    // Ajustar la posición y rotación de la cámara
-    camera.position.set(0, 0, 14);
-  
-    // Calcula los límites del área de juego
-    const aspectRatio = window.innerWidth / height;
-    const frustumHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
-    const frustumWidth = frustumHeight * aspectRatio;
-    let halfWidth = frustumWidth / 2;
-    let halfHeight = frustumHeight / 2;
-  
-    // Factores de compensación para los límites de rebote debido a la rotación del fondo
-    let rightWidthCompensation = 0.85;
-    let bottomHeightCompensation = 0.9;
-    
-    // Función para calcular las compensaciones basadas en las dimensiones actuales
-    function calculateCompensations() {
-        // Valores base para las compensaciones
-        const baseRightWidthComp = 0.85;
-        const baseBottomHeightComp = 0.9;
+    // Esperar a que el DOM esté completamente cargado para acceder a los elementos
+    document.addEventListener('DOMContentLoaded', () => {
+        // Obtener el contenedor de scroll real (snap-container)
+        const snapContainer = document.querySelector('.snap-container');
+        // Usar la altura total del snap-container en lugar del document completo
+        const height = snapContainer ? snapContainer.scrollHeight : document.documentElement.scrollHeight;
         
-        // Obtener el elemento de fondo transformado
-        const boxesContainer = document.querySelector('[style*="skewX(-48deg)"]');
+        // Configuración de la escena
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / height, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, height);
+        renderer.setClearColor(0x000000, 0);
+        const backgroundElement = document.getElementById("backgroundElement");
+        backgroundElement?.appendChild(renderer.domElement);
+      
+        // Crear la pelota
+        const ballGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const ballMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent:true, opacity:0, wireframe: true});
+        const ball = new THREE.Mesh(ballGeometry, ballMaterial);
+        ball.position.set(0, 0, 0);
+        scene.add(ball);
         
-        if (boxesContainer) {
-            // Obtener las proporciones de la ventana
-            const windowRatio = window.innerWidth / window.innerHeight;
-            
-            // Calcular ángulos de transformación desde el estilo (aproximación)
-            const skewXAngle = 48; // grados, del skewX(-48deg)
-            const skewYAngle = 14; // grados, del skewY(14deg)
-            
-            // Factores de corrección basados en los ángulos de inclinación
-            // Estos valores se ajustan según la geometría específica de la transformación
-            const skewXFactor = Math.tan(skewXAngle * Math.PI / 180) * 0.01;
-            const skewYFactor = Math.tan(skewYAngle * Math.PI / 180) * 0.01;
-            
-            // Ajustar compensaciones según el tamaño de la ventana y los factores de inclinación
-            rightWidthCompensation = baseRightWidthComp - (skewXFactor * windowRatio);
-            bottomHeightCompensation = baseBottomHeightComp - (skewYFactor / windowRatio);
-            
-            // Asegurar que los valores estén dentro de rangos razonables
-            rightWidthCompensation = Math.max(0.7, Math.min(0.9, rightWidthCompensation));
-            bottomHeightCompensation = Math.max(0.75, Math.min(0.95, bottomHeightCompensation));
-            
-            // Ajuste fino adicional para pantallas muy anchas o muy estrechas
-            if (windowRatio > 1.8) { // pantallas muy anchas
-                rightWidthCompensation *= 0.95;
-            } else if (windowRatio < 0.7) { // pantallas muy estrechas
-                bottomHeightCompensation *= 0.95;
-            }
-            
-            console.log("Compensaciones calculadas:", rightWidthCompensation, bottomHeightCompensation);
-        }
-    }
-    
-    // Calcular compensaciones iniciales
-    calculateCompensations();
-    
-    // Recalcular compensaciones cuando cambie el tamaño de la ventana
-    window.addEventListener('resize', () => {
-        // Actualizar las dimensiones de la escena
-        const newHeight = document.documentElement.scrollHeight;
-        renderer.setSize(window.innerWidth, newHeight);
+        // Ajustar la posición y rotación de la cámara
+        camera.position.set(0, 0, 14);
+      
+        // Calcula los límites del área de juego
+        const aspectRatio = window.innerWidth / height;
+        const frustumHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+        const frustumWidth = frustumHeight * aspectRatio;
+        let halfWidth = frustumWidth / 2;
+        let halfHeight = frustumHeight / 2;
         
-        // Recalcular aspectRatio y frustrums
-        const newAspectRatio = window.innerWidth / newHeight;
-        camera.aspect = newAspectRatio;
-        camera.updateProjectionMatrix();
-        
-        const newFrustumHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
-        const newFrustumWidth = newFrustumHeight * newAspectRatio;
-        
-        // Actualizar las variables halfWidth y halfHeight con los nuevos valores
-        halfWidth = newFrustumWidth / 2;
-        halfHeight = newFrustumHeight / 2;
-        
-        // Recalcular las compensaciones
-        calculateCompensations();
-    });
+        // Recalcular compensaciones cuando cambie el tamaño de la ventana
+        window.addEventListener('resize', () => {
+            // Actualizar las dimensiones de la escena usando el contenedor correcto
+            const newHeight = snapContainer ? snapContainer.scrollHeight : document.documentElement.scrollHeight;
+            renderer.setSize(window.innerWidth, newHeight);
+            
+            // Recalcular aspectRatio y frustrums
+            const newAspectRatio = window.innerWidth / newHeight;
+            camera.aspect = newAspectRatio;
+            camera.updateProjectionMatrix();
+            
+            const newFrustumHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+            const newFrustumWidth = newFrustumHeight * newAspectRatio;
+            
+            // Actualizar las variables halfWidth y halfHeight con los nuevos valores
+            halfWidth = newFrustumWidth / 2;
+            halfHeight = newFrustumHeight / 2;
+        });
 
-    // Física simple
-    let velocity = new THREE.Vector3(0, 0, 0);
-  
-    // Manejar el clic
-    document.addEventListener('click', onDocumentMouseDown, false);
-  
-    // Luz ambiental
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-  
-    // Luz direccional
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 11);
-    directionalLight.position.set(1, 3, 3);
-    scene.add(directionalLight);
-  
-    // Cargar el modelo
-    const loader = new GLTFLoader();
-    loader.load(
-        '/golf_ball.glb',
-        function (gltf) {
-            const model = gltf.scene;
-            // Recorre todos los objetos del modelo
-            model.traverse((node) => {
-                if (node.isMesh) {
-                    // Asegúrate de que los materiales sean visibles
-                    node.material.side = THREE.DoubleSide;
-                    
-                    // Si hay texturas, asegúrate de que se carguen
-                    if (node.material.map) {
-                        node.material.map.encoding = THREE.sRGBEncoding;
+        // Física simple
+        let velocity = new THREE.Vector3(0, 0, 0);
+      
+        // Manejar el clic
+        document.addEventListener('click', onDocumentMouseDown, false);
+      
+        // Luz ambiental
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+      
+        // Luz direccional
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 11);
+        directionalLight.position.set(1, 3, 3);
+        scene.add(directionalLight);
+      
+        // Cargar el modelo
+        const loader = new GLTFLoader();
+        loader.load(
+            '/golf_ball.glb',
+            function (gltf) {
+                const model = gltf.scene;
+                // Recorre todos los objetos del modelo
+                model.traverse((node) => {
+                    if (node.isMesh) {
+                        // Asegúrate de que los materiales sean visibles
+                        node.material.side = THREE.DoubleSide;
+                        
+                        // Si hay texturas, asegúrate de que se carguen
+                        if (node.material.map) {
+                            node.material.map.encoding = THREE.sRGBEncoding;
+                        }
                     }
-                }
-            });
-            model.scale.set(1, 1, 1)
-            model.position.set(0,-0.40,0)
-            ball.add(model);
-        },
-        function (xhr) {
-            console.log((xhr.loaded / xhr.total * 100) + '% cargado');
-        },
-        function (error) {
-            console.error('Un error ocurrió al cargar el modelo', error);
+                });
+                model.scale.set(1, 1, 1)
+                model.position.set(0,-0.40,0)
+                ball.add(model);
+            },
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% cargado');
+            },
+            function (error) {
+                console.error('Un error ocurrió al cargar el modelo', error);
+            }
+        );
+      
+        function onDocumentMouseDown(event) {
+            // Obtener las coordenadas de la pelota en la pantalla
+            const ballScreen = getObjectCoordenates(ball);
+            
+            // Coordenadas del clic del ratón (ajustadas por scroll)
+            const mouseX = event.clientX + window.scrollX;
+            const mouseY = event.clientY + (snapContainer ? snapContainer.scrollTop : window.scrollY); // Usar el scroll del contenedor correcto
+            
+            // Calcular dirección desde la pelota hacia el ratón
+            const directionX = mouseX - ballScreen.x;
+            const directionY = mouseY - ballScreen.y;
+            
+            // Normalizar la dirección (convertir a vector unitario)
+            const distance = Math.sqrt(directionX * directionX + directionY * directionY);
+            const normalizedX = directionX / distance;
+            const normalizedY = directionY / distance;
+            
+            // Crear el vector de impulso (desde la pelota hacia el clic)
+            const impulse = new THREE.Vector3(normalizedX, -normalizedY, 0);
+            
+            // La fuerza puede variar según la distancia (opcional)
+            const forceMultiplier = Math.min(distance / 50, 1); // Mayor distancia = mayor fuerza (hasta un límite)
+            
+            // Aplicar el impulso a la velocidad actual
+            velocity.add(impulse.multiplyScalar(0.1 * (1 + forceMultiplier)));
         }
-    );
-  
-    function onDocumentMouseDown(event) {
-        // Obtener las coordenadas de la pelota en la pantalla
-        const ballScreen = getObjectCoordenates(ball);
-        
-        // Coordenadas del clic del ratón (ajustadas por scroll)
-        const mouseX = event.clientX + window.scrollX;
-        const mouseY = event.clientY + window.scrollY;
-        
-        // Calcular dirección desde la pelota hacia el ratón
-        const directionX = mouseX - ballScreen.x;
-        const directionY = mouseY - ballScreen.y;
-        
-        // Normalizar la dirección (convertir a vector unitario)
-        const distance = Math.sqrt(directionX * directionX + directionY * directionY);
-        const normalizedX = directionX / distance;
-        const normalizedY = directionY / distance;
-        
-        // Crear el vector de impulso (desde la pelota hacia el clic)
-        const impulse = new THREE.Vector3(normalizedX, -normalizedY, 0);
-        
-        // La fuerza puede variar según la distancia (opcional)
-        const forceMultiplier = Math.min(distance / 50, 1); // Mayor distancia = mayor fuerza (hasta un límite)
-        
-        // Aplicar el impulso a la velocidad actual
-        velocity.add(impulse.multiplyScalar(0.1 * (1 + forceMultiplier)));
-    }
-  
-    // Función de animación
-    function animate() {
-        requestAnimationFrame(animate);
-        nextBallPosition();
-        ballFloorCollision();
-        renderer.render(scene, camera);
-    }
-    animate();
-  
-    function nextBallPosition() {
-        velocity.x *= 0.99; //Hacer que pare
-        velocity.y *= 0.99; //Hacer que pare
-        
-        if(velocity.x > 0 && velocity.x < 0.01 || velocity.x < 0 && velocity.x > -0.01){//Hacer que pare del todo
-            velocity.x = 0;
+      
+        // Función de animación
+        function animate() {
+            requestAnimationFrame(animate);
+            nextBallPosition();
+            ballFloorCollision();
+            renderer.render(scene, camera);
         }
-        if(velocity.y > 0 && velocity.y < 0.01 || velocity.y < 0 && velocity.y > -0.01){//Hacer que pare del todo
-            velocity.y = 0;
+        animate();
+      
+        function nextBallPosition() {
+            velocity.x *= 0.99; //Hacer que pare
+            velocity.y *= 0.99; //Hacer que pare
+            
+            if(velocity.x > 0 && velocity.x < 0.01 || velocity.x < 0 && velocity.x > -0.01){//Hacer que pare del todo
+                velocity.x = 0;
+            }
+            if(velocity.y > 0 && velocity.y < 0.01 || velocity.y < 0 && velocity.y > -0.01){//Hacer que pare del todo
+                velocity.y = 0;
+            }
+      
+            // Rotación de la esfera
+            const rotation = 0.02;
+            if (velocity.x > 0) {
+                ball.rotation.x -= rotation;
+            } else if (velocity.x < 0) {
+                ball.rotation.x += rotation;
+            }
+            if (velocity.y > 0) {
+                ball.rotation.y -= rotation;
+            } else if (velocity.y < 0) {
+                ball.rotation.y += rotation;
+            }
+      
+            ball.position.add(velocity);
+      
+            // Rebote simple en los bordes del plano
+            if (ball.position.x > 0 && ball.position.x > (halfWidth - ball.geometry.parameters.radius)) {
+                velocity.x *= -0.8;
+                ball.position.x = Math.sign(ball.position.x) * (halfWidth - ball.geometry.parameters.radius);
+            } else if (Math.abs(ball.position.x) > halfWidth - ball.geometry.parameters.radius) {
+                velocity.x *= -0.8;
+                ball.position.x = Math.sign(ball.position.x) * (halfWidth - ball.geometry.parameters.radius);
+            }
+      
+            if (Math.abs(ball.position.y) > halfHeight - ball.geometry.parameters.radius) {
+                velocity.y *= -0.8;
+                ball.position.y = Math.sign(ball.position.y) * (halfHeight - ball.geometry.parameters.radius);
+            }
         }
-  
-        // Rotación de la esfera
-        const rotation = 0.02;
-        if (velocity.x > 0) {
-            ball.rotation.x -= rotation;
-        } else if (velocity.x < 0) {
-            ball.rotation.x += rotation;
+      
+        function ballFloorCollision() { //Desacoplar esto que tiene que ver con el contacto con el fondo
+            const hoverDivs = document.getElementsByClassName("paint-box");
+            for (let i = 0; i < hoverDivs.length; i++) {
+                const hoverDiv = hoverDivs[i];
+                const rect = hoverDiv?.getBoundingClientRect();
+                let ballCoordenates = getObjectCoordenates(ball);
+                //Adjust coordinates to scroll position
+                let top = rect.top + (snapContainer ? snapContainer.scrollTop : window.scrollY);
+                let bottom = rect.bottom + (snapContainer ? snapContainer.scrollTop : window.scrollY);
+                let left = rect.left + window.scrollX;
+                let right = rect.right + window.scrollX;
+      
+                if (ballCoordenates.x >= left && ballCoordenates.x <= right &&
+                    ballCoordenates.y >= top && ballCoordenates.y <= bottom) {
+                        if(hoverDiv.getAttribute("style") != "background-color: #d67f2f;"){
+                            hoverDiv.setAttribute("style", "background-color: #d67f2f;");
+                        }
+                }/*else if(hoverDiv.getAttribute("style") == "background-color: #a64c5e;"){
+                    hoverDiv.setAttribute("style", "background-color: rgba(0, 0, 0, 0);");
+                }*/
+            }
         }
-        if (velocity.y > 0) {
-            ball.rotation.y -= rotation;
-        } else if (velocity.y < 0) {
-            ball.rotation.y += rotation;
+      
+        function getObjectCoordenates(object) {
+          let worldPosition = new THREE.Vector3();
+          object.getWorldPosition(worldPosition);
+          //Project coordinates from 3D to 2D
+          let screenPosition = worldPosition.project(camera);
+          //Convert coordinates to screen position
+          let x = (screenPosition.x + 1) * renderer.domElement.width / 2;
+          let y = (-screenPosition.y + 1) * renderer.domElement.height / 2;
+          let rect = renderer.domElement.getBoundingClientRect();
+          //Adjust coordinates to canvas position
+          x += rect.left;
+          y += rect.top;
+          //Adjust coordinates to scroll position
+          x += window.scrollX;
+          y += (snapContainer ? snapContainer.scrollTop : window.scrollY);
+      
+          return {x: x, y: y};
         }
-  
-        ball.position.add(velocity);
-  
-        // Rebote simple en los bordes del plano
-        if (ball.position.x > 0 && ball.position.x > (halfWidth * rightWidthCompensation - ball.geometry.parameters.radius)) {
-            velocity.x *= -0.8;
-            ball.position.x = Math.sign(ball.position.x) * (halfWidth * rightWidthCompensation - ball.geometry.parameters.radius);
-        } else if (Math.abs(ball.position.x) > halfWidth - ball.geometry.parameters.radius) {
-            velocity.x *= -0.8;
-            ball.position.x = Math.sign(ball.position.x) * (halfWidth - ball.geometry.parameters.radius);
-        }
-  
-        if (ball.position.y < 0 && Math.abs(ball.position.y) > (halfHeight * bottomHeightCompensation - ball.geometry.parameters.radius)) {
-            velocity.y *= -0.8;
-            ball.position.y = Math.sign(ball.position.y) * (halfHeight * bottomHeightCompensation - ball.geometry.parameters.radius);
-        } else if (Math.abs(ball.position.y) > halfHeight - ball.geometry.parameters.radius) {
-            velocity.y *= -0.8;
-            ball.position.y = Math.sign(ball.position.y) * (halfHeight - ball.geometry.parameters.radius);
-        }
-    }
-  
-    function ballFloorCollision() { //Desacoplar esto que tiene que ver con el contacto con el fondo
-        const hoverDivs = document.getElementsByClassName("paint-box");
-        for (let i = 0; i < hoverDivs.length; i++) {
-            const hoverDiv = hoverDivs[i];
-            const rect = hoverDiv?.getBoundingClientRect();
-            let ballCoordenates = getObjectCoordenates(ball);
-            //Adjust coordinates to scroll position
-            let top = rect.top + window.scrollY;
-            let bottom = rect.bottom + window.scrollY;
-            let left = rect.left + window.scrollX;
-            let right = rect.right + window.scrollX;
-  
-            if (ballCoordenates.x >= left && ballCoordenates.x <= right &&
-                ballCoordenates.y >= top && ballCoordenates.y <= bottom) {
-                    if(hoverDiv.getAttribute("style") != "background-color: #bf7f8c;"){
-                        hoverDiv.setAttribute("style", "background-color: #bf7f8c;");
-                    }
-            }/*else if(hoverDiv.getAttribute("style") == "background-color: #a64c5e;"){
-                hoverDiv.setAttribute("style", "background-color: rgba(0, 0, 0, 0);");
-            }*/
-        }
-    }
-  
-    function getObjectCoordenates(object) {
-      let worldPosition = new THREE.Vector3();
-      object.getWorldPosition(worldPosition);
-      //Project coordinates from 3D to 2D
-      let screenPosition = worldPosition.project(camera);
-      //Convert coordinates to screen position
-      let x = (screenPosition.x + 1) * renderer.domElement.width / 2;
-      let y = (-screenPosition.y + 1) * renderer.domElement.height / 2;
-      let rect = renderer.domElement.getBoundingClientRect();
-      //Adjust coordinates to canvas position
-      x += rect.left;
-      y += rect.top;
-      //Adjust coordinates to scroll position
-      x += window.scrollX;
-      y += window.scrollY;
-  
-      return {x: x, y: y};
-    }
+    });
 </script>

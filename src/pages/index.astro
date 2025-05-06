@@ -31,7 +31,7 @@ const { name, label } = basics
     </motion.h1>
   </LampContainer>
   <main>
-    <div class="h-full relative w-full overflow-hidden flex flex-col items-center justify-center rounded-lg">
+    <div class="snap-container">
         <Boxes client:visible />
         <ThreejsBall />
         <Hero />
@@ -40,17 +40,33 @@ const { name, label } = basics
         <Education />
         <Projects />
         <Skills />
-      </div>
+    </div>
   </main>
   <KeyboardManager />
 </Layout>
 
 <style>
   main {
-    padding: 0px 4rem 4rem 4rem;
     margin: auto;
     width: 100%;
     background-color: aliceblue;
+    overflow-x: hidden;
+  }
+
+  .snap-container {
+    height: 100vh; /* Altura completa para permitir scroll */
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory; /* Activa el scroll-snap vertical */
+    scrollbar-width: none; /* Oculta el scroll en Firefox */
+    -ms-overflow-style: none; /* Oculta el scroll en IE y Edge */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 0;
   }
 
   @media (prefers-color-scheme: dark){
@@ -63,5 +79,92 @@ const { name, label } = basics
     main {
       padding: 2rem;
     }
+    
+    .snap-container {
+      scroll-snap-type: y proximity; /* Cambia a proximity en móvil para más fluidez */
+    }
   }
 </style>
+
+<script>
+// Script para añadir navegación suave con teclado y detección de sección central
+document.addEventListener('DOMContentLoaded', () => {
+  const sections = document.querySelectorAll('.snap-section');
+  const container = document.querySelector('.snap-container');
+  let currentIndex = 0;
+
+  // Función para navegar a una sección específica
+  const navigateToSection = (index) => {
+    if (index < 0) index = 0;
+    if (index >= sections.length) index = sections.length - 1;
+    
+    currentIndex = index;
+    sections[index].scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Función para actualizar qué sección está activa (la más cercana al centro)
+  const updateActiveSection = () => {
+    if (!container) return;
+    
+    const containerRect = container.getBoundingClientRect();
+    const containerCenter = containerRect.top + containerRect.height / 4;
+    
+    let closestSectionIndex = 0;
+    let minDistance = Infinity;
+    
+    sections.forEach((section, index) => {
+      const sectionRect = section.getBoundingClientRect();
+      const sectionCenter = sectionRect.top + sectionRect.height / 2;
+      const distance = Math.abs(containerCenter - sectionCenter);
+      
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestSectionIndex = index;
+      }
+    });
+    
+    // Desactivar todas las secciones primero
+    sections.forEach(section => {
+      section.classList.remove('in-focus');
+    });
+    
+    // Activar solo la sección más cercana al centro
+    if (sections[closestSectionIndex]) {
+      sections[closestSectionIndex].classList.add('in-focus');
+      if(sections[closestSectionIndex+1] !== undefined){
+        sections[closestSectionIndex+1].classList.add('in-focus');
+      }
+      currentIndex = closestSectionIndex;
+    }
+  };
+
+  // Evento de teclado para navegar con flechas arriba/abajo
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      navigateToSection(currentIndex + 1);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      navigateToSection(currentIndex - 1);
+    }
+  });
+
+  // Escuchar eventos de scroll para actualizar la sección activa
+  if (container) {
+    // Usar throttle para mejorar rendimiento en scroll
+    let scrollTimeout;
+    container.addEventListener('scroll', () => {
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+      
+      scrollTimeout = setTimeout(() => {
+        updateActiveSection();
+      }, 100); // Pequeño retraso para evitar ejecución excesiva durante scroll rápido
+    });
+    
+    // Actualizar la sección activa al cargar la página
+    setTimeout(updateActiveSection, 500);
+  }
+});
+</script>
