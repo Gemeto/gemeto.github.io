@@ -33,7 +33,7 @@
       "position": "Web Programmer",
       "url": "https://palbin.es",
       "startDate": "2020-08-01",
-      "endDate": "2024-08-01",
+      "endDate": "2025-01-01",
       "summary": "Palbin is a company dedicated to maintaining and developing an e-commerce platform that allows the creation of online stores. It caters to a general audience, with functionalities initially implemented privately based on user feedback and later added to the website. During my time here, I worked with PHP, JS, HTML, and CSS for web implementations, as well as Dart and Flutter for mobile app development. I spent 3 years at this company.",
       "highlights": []
     },
@@ -43,12 +43,11 @@
       "url": "https://softline.es",
       "startDate": "2019-09-01",
       "endDate": "2020-08-01",
-      "summary": "Softline is a Mallorca-based company specializing in custom software development for small businesses. During my time here, I learned to use the WinDev language for desktop development on Windows and mobile development for Android. I worked at Softline for 7 months.",
+      "summary": "Softline is a Mallorca-based company specializing in custom software development for small businesses. During my time here, I learned to use the WinDev language for desktop development on Windows and mobile development for Android.",
       "highlights": []
     }
   ],
   "education": [{
-    {
       "institution": "Uniovi",
       "url": "https://www.uniovi.es",
       "area": "Software Engineer",
@@ -190,14 +189,16 @@
   ],
   "projects": [
     {
-      "name": "Portfolio .NET editor",
-      "isActive": false,
-      "description": "Simple presentation interface with a management menu for adding, modifying, or deleting entries.",
+      "name": "Spain Houses",
+      "isActive": true,
+      "description": "Modular application for extracting, analyzing, and visualizing housing data in Spain. It allows users to search for houses in different provinces and filter by various criteria. The application connects to a REST API to obtain data and uses a MongoDB database to store results.",
       "highlights": [
-        ".NET"
+        "Python",
+        "MongoDB",
+        "Machine Learning"
       ],
-      "url": "https://github.com/Gemeto/Porfolio-.NET",
-      "github": "https://github.com/Gemeto/Porfolio-.NET"
+      "url": "https://github.com/Gemeto/SpainHouses",
+      "github": "https://github.com/Gemeto/SpainHouses"
     },
     {
       "name": "Easter egg mini-game",

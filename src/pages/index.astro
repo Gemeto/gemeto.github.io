@@ -32,7 +32,8 @@ const { name, label } = basics
   </LampContainer>
   <main>
     <div class="h-full relative w-full overflow-hidden flex flex-col items-center justify-center rounded-lg">
-        <Boxes client:only />
+        <Boxes client:visible />
+        <ThreejsBall client:load />
         <Hero />
         <About />
         <Experience />

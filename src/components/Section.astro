@@ -4,7 +4,7 @@ const { title } = Astro.props
 import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
 ---
 
-<section class="slide-from-right-faded">
+<section class="slide-section">
   <CardContainer client:visible className="inter-var">
     <CardBody client:visible className="p-6 m-auto h-full w-full bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-red-500/[0.1] dark:bg-slate-800 dark:border-white/[0.2] border-black/[0.1] rounded-xl border">
       <CardItem
@@ -28,7 +28,12 @@ import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
 </section>
 
 <script>
-  // se ejecuta en el cliente <----
+  // Detecta preferencias de reducción de movimiento
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+  if (prefersReducedMotion) {
+    document.documentElement.classList.add('reduced-motion');
+  }
 </script>
 
 <style>
@@ -50,19 +55,62 @@ import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
     }
   }
 
-  .slide-from-right-faded {
-    position: relative;
-    animation: slideFromRightFaded 1s ease-out;
+  /* Sistema de animación mejorado que evita CLS */
+  .slide-section {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s;
+  }
+
+  /* Clase que se aplicará después para iniciar las animaciones */
+  .slide-section.animate {
+    animation: slideIn 0.6s ease forwards;
+    animation-delay: calc(var(--section-index, 0) * 0.5s);
+  }
+
+  /* Desactiva animaciones si el usuario prefiere reducir movimiento */
+  :root.reduced-motion .slide-section {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: none;
   }
   
-  @keyframes slideFromRightFaded {
-      0% {
-          right: -100%;
-          opacity: 0;
-      }
-      100% {
-          right: 0;
-          opacity: 1;
-      }
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 </style>
+
+<script>
+  // Detecta preferencias de reducción de movimiento
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+  if (prefersReducedMotion) {
+    document.documentElement.classList.add('reduced-motion');
+  }
+
+  // Asignar índices a cada sección y activar animaciones solo después de 2 segundos
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.slide-section');
+    
+    // Primero asignamos todos los índices
+    sections.forEach((section, index) => {
+      (section as HTMLElement).style.setProperty('--section-index', index.toString());
+    });
+    
+    // Esperar 2 segundos antes de iniciar las animaciones
+    setTimeout(() => {
+      // Activar las animaciones después del tiempo de espera
+      sections.forEach((section) => {
+        section.classList.add('animate');
+      });
+    }, 500);
+  });
+</script>

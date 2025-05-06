@@ -24,26 +24,71 @@ export const CardContainer = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
+  const rotationX = useRef(0);
+  const rotationY = useRef(0);
+  const animationRef = useRef<number | null>(null);
+
+  const updateRotation = () => {
+    if (!containerRef.current) return;
+
+    containerRef.current.style.transform = `rotateY(${rotationY.current}deg) rotateX(${rotationX.current}deg)`;
+
+    if (isMouseEntered) {
+      animationRef.current = requestAnimationFrame(updateRotation);
+    }
+  };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const { left, top, width, height } =
       containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - left - width / 2) / 25;
-    const y = (e.clientY - top - height / 2) / 25;
-    containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+
+    const x = (e.clientX - left - width / 2) / 30;
+    const y = (e.clientY - top - height / 2) / 30;
+
+    rotationY.current = x;
+    rotationX.current = -y;
+
+    if (!animationRef.current) {
+      animationRef.current = requestAnimationFrame(updateRotation);
+    }
   };
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsMouseEntered(true);
     if (!containerRef.current) return;
+    if (!animationRef.current) {
+      animationRef.current = requestAnimationFrame(updateRotation);
+    }
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     setIsMouseEntered(false);
-    containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
+
+    rotationX.current = 0;
+    rotationY.current = 0;
+
+    if (!animationRef.current) {
+      animationRef.current = requestAnimationFrame(updateRotation);
+    }
+
+    setTimeout(() => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
+    }, 300);
   };
+
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
+
   return (
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
       <div
@@ -61,7 +106,7 @@ export const CardContainer = ({
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           className={cn(
-            "flex items-center justify-center relative transition-all duration-200 ease-linear",
+            "flex items-center justify-center relative transition-all duration-300 ease-out will-change-transform",
             className
           )}
           style={{
