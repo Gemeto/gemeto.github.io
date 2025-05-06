@@ -49,14 +49,32 @@ const { image, summary, url } = basics
       monospace;
     background: #fff;
     letter-spacing: -0.025rem;
-    scrollbar-width: none; /* Oculta el scroll en Firefox */
-    -ms-overflow-style: none; /* Oculta el scroll en IE y Edge */
+    /* Mantenemos la barra de desplazamiento global pero estilizada */
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+  }
+
+  /* Personalizamos scrollbar para navegadores WebKit */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
   }
 
   body,
   figure {
     margin: 0;
     padding: 0;
+    /* Evitamos overflow en ejes secundarios */
+    overflow-x: hidden;
   }
 
   a {
@@ -103,9 +121,13 @@ const { image, summary, url } = basics
   }
 
   @media (prefers-color-scheme: dark) {
-      p {
-        color: #ECDFCC;
-      }
+    p {
+      color: #ECDFCC;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #666;
+    }
   }
 
   .print {

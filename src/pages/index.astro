@@ -50,23 +50,22 @@ const { name, label } = basics
     margin: auto;
     width: 100%;
     background-color: aliceblue;
-    overflow-x: hidden;
+    /* Aseguramos que el contenedor principal no tenga overflow que genere scroll */
+    overflow: hidden;
+    position: relative;
   }
 
   .snap-container {
-    height: 100vh; /* Altura completa para permitir scroll */
     width: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scroll-snap-type: y mandatory; /* Activa el scroll-snap vertical */
-    scrollbar-width: none; /* Oculta el scroll en Firefox */
-    -ms-overflow-style: none; /* Oculta el scroll en IE y Edge */
+    /* Eliminamos cualquier propiedad que pueda crear scroll anidado */
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
     padding: 2rem 0;
+    /* Al igual que el main, aseguramos que no haya overflow */
+    overflow: visible;
   }
 
   @media (prefers-color-scheme: dark){
@@ -81,7 +80,7 @@ const { name, label } = basics
     }
     
     .snap-container {
-      scroll-snap-type: y proximity; /* Cambia a proximity en móvil para más fluidez */
+      gap: 3rem;
     }
   }
 </style>
@@ -90,24 +89,43 @@ const { name, label } = basics
 // Script para añadir navegación suave con teclado y detección de sección central
 document.addEventListener('DOMContentLoaded', () => {
   const sections = document.querySelectorAll('.snap-section');
-  const container = document.querySelector('.snap-container');
   let currentIndex = 0;
+  let isScrolling = false;
+  let userScrolling = false;
+  let scrollTimeout;
 
   // Función para navegar a una sección específica
-  const navigateToSection = (index) => {
+  const navigateToSection = (index, behavior = 'smooth') => {
     if (index < 0) index = 0;
     if (index >= sections.length) index = sections.length - 1;
     
     currentIndex = index;
-    sections[index].scrollIntoView({ behavior: 'smooth' });
+    
+    // Previene la recursión de eventos de scroll
+    isScrolling = true;
+    
+    // Centra la sección en la ventana
+    const section = sections[index];
+    const sectionRect = section.getBoundingClientRect();
+    const sectionCenter = sectionRect.top + window.scrollY + sectionRect.height / 2;
+    const windowCenter = window.innerHeight / 2;
+    const scrollToY = sectionCenter - windowCenter;
+    
+    window.scrollTo({
+      top: scrollToY,
+      behavior: behavior
+    });
+    
+    // Permite que otros eventos de scroll se procesen después de la animación
+    setTimeout(() => {
+      isScrolling = false;
+    }, behavior === 'smooth' ? 500 : 0);
   };
 
   // Función para actualizar qué sección está activa (la más cercana al centro)
   const updateActiveSection = () => {
-    if (!container) return;
-    
-    const containerRect = container.getBoundingClientRect();
-    const containerCenter = containerRect.top + containerRect.height / 4;
+    const windowHeight = window.innerHeight;
+    const windowCenter = windowHeight / 2;
     
     let closestSectionIndex = 0;
     let minDistance = Infinity;
@@ -115,10 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach((section, index) => {
       const sectionRect = section.getBoundingClientRect();
       const sectionCenter = sectionRect.top + sectionRect.height / 2;
-      const distance = Math.abs(containerCenter - sectionCenter);
+      const distanceFromCenter = Math.abs(windowCenter - sectionCenter);
       
-      if (distance < minDistance) {
-        minDistance = distance;
+      if (distanceFromCenter < minDistance) {
+        minDistance = distanceFromCenter;
         closestSectionIndex = index;
       }
     });
@@ -128,14 +146,34 @@ document.addEventListener('DOMContentLoaded', () => {
       section.classList.remove('in-focus');
     });
     
-    // Activar solo la sección más cercana al centro
+    // Activar la sección más cercana al centro
     if (sections[closestSectionIndex]) {
       sections[closestSectionIndex].classList.add('in-focus');
-      if(sections[closestSectionIndex+1] !== undefined){
-        sections[closestSectionIndex+1].classList.add('in-focus');
-      }
+    if(sections[closestSectionIndex-1] !== undefined){
+        sections[closestSectionIndex-1].classList.add('in-focus');
+    }
       currentIndex = closestSectionIndex;
     }
+    
+    return closestSectionIndex;
+  };
+  
+  // Verifica si el desplazamiento fue lo suficientemente significativo para activar el centrado
+  // En móvil se usa un umbral más alto (modo proximity)
+  const shouldCenterSection = (currentSection) => {
+    const section = sections[currentSection];
+    if (!section) return false;
+    
+    const sectionRect = section.getBoundingClientRect();
+    const sectionCenter = sectionRect.top + sectionRect.height / 2;
+    const windowCenter = window.innerHeight / 4;
+    const distanceFromCenter = Math.abs(windowCenter - sectionCenter);
+    
+    // En móvil, usamos un umbral más alto (modo proximity)
+    // Si la distancia es menor que 1/4 de la altura de la ventana, no centramos
+    const threshold = window.innerHeight * 0.25;
+    
+    return distanceFromCenter > threshold;
   };
 
   // Evento de teclado para navegar con flechas arriba/abajo
@@ -143,28 +181,64 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       navigateToSection(currentIndex + 1);
+      updateActiveSection()
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       navigateToSection(currentIndex - 1);
+      updateActiveSection()
     }
   });
 
-  // Escuchar eventos de scroll para actualizar la sección activa
-  if (container) {
-    // Usar throttle para mejorar rendimiento en scroll
-    let scrollTimeout;
-    container.addEventListener('scroll', () => {
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-      
-      scrollTimeout = setTimeout(() => {
-        updateActiveSection();
-      }, 100); // Pequeño retraso para evitar ejecución excesiva durante scroll rápido
-    });
+  // Detecta scroll iniciado por el usuario
+  window.addEventListener('wheel', () => {
+    userScrolling = true;
+    clearTimeout(scrollTimeout);
+  }, { passive: true });
+  
+  window.addEventListener('touchstart', () => {
+    userScrolling = true;
+    clearTimeout(scrollTimeout);
+  }, { passive: true });
+
+  // Escuchar eventos de scroll global para actualizar la sección activa
+  window.addEventListener('scroll', () => {
+    if (isScrolling) return; // Ignora eventos de scroll generados por la navegación automática
     
-    // Actualizar la sección activa al cargar la página
-    setTimeout(updateActiveSection, 500);
-  }
+    // Actualiza la sección activa durante el scroll
+    const currentSection = updateActiveSection();
+    
+    // Si el usuario está haciendo scroll, espera a que termine para centrar la sección
+    if (userScrolling) {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        userScrolling = false;
+        
+        // Solo centramos si la sección no está ya casi centrada
+        // En móvil esto crea el efecto "proximity"
+        if (shouldCenterSection(currentSection)) {
+          navigateToSection(currentSection);
+        }
+      }, 200);
+    }
+  });
+  
+  // Actualizar la sección activa al cargar la página
+  setTimeout(() => {
+    const index = updateActiveSection();
+    // Centrar la sección inicial sin animación
+    navigateToSection(index, 'auto');
+  }, 500);
+  
+  // Ajustar comportamiento al cambiar el tamaño de la ventana
+  window.addEventListener('resize', () => {
+    clearTimeout(scrollTimeout);
+    // Actualizar la sección activa después de cambiar el tamaño
+    setTimeout(() => {
+      const index = updateActiveSection();
+      if (shouldCenterSection(index)) {
+        navigateToSection(index, 'auto');
+      }
+    }, 200);
+  });
 });
 </script>

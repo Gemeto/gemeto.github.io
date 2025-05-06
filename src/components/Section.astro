@@ -44,7 +44,7 @@ import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
     display: flex;
     align-items: center;
     justify-content: center;
-    scroll-snap-align: center;
+    /* Quitamos scroll-snap-align para usar solo el scroll global */
     transition: transform 0.5s ease, scale 0.5s ease;
   }
 
@@ -62,7 +62,7 @@ import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
     }
   }
 
-  /* Sistema de animación mejorado con scroll-snap */
+  /* Sistema de animación mejorado sin depender de scroll-snap */
   .slide-section {
     opacity: 0;
     transform: translateX(500px) scale(0.1);
@@ -89,7 +89,6 @@ import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
     animation: none;
     transition: none;
   }
-
 </style>
 
 <script>
