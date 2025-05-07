@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Permite que otros eventos de scroll se procesen después de la animación
     setTimeout(() => {
       isScrolling = false;
-    }, behavior === 'smooth' ? 500 : 0);
+    }, behavior === 'smooth' ? 700 : 0);
   };
 
   // Función para actualizar qué sección está activa (la más cercana al centro)
@@ -165,13 +165,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!section) return false;
     
     const sectionRect = section.getBoundingClientRect();
+    if(sectionRect.height>window.innerHeight) return false
     const sectionCenter = sectionRect.top + sectionRect.height / 2;
     const windowCenter = window.innerHeight / 4;
+    if(window.scrollY==0 || window.scrollY==document.body.scrollHeight-window.innerHeight){
+      return false;
+    }
     const distanceFromCenter = Math.abs(windowCenter - sectionCenter);
     
     // En móvil, usamos un umbral más alto (modo proximity)
     // Si la distancia es menor que 1/4 de la altura de la ventana, no centramos
-    const threshold = window.innerHeight * 0.25;
+    const threshold = window.innerHeight * 0.15;
     
     return distanceFromCenter > threshold;
   };
