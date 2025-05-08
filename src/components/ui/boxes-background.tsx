@@ -10,6 +10,7 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
   const [rows, setRows] = useState(new Array(initialRows).fill(1));
   const [cols, setCols] = useState(new Array(initialCols).fill(1));
   const [isFullyLoaded, setIsFullyLoaded] = useState(false);
+  const [isLowPerformance, setIsLowPerformance] = useState(true);
   
   let colors = [
     "--sky-300",
@@ -29,18 +30,37 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
 
   // Cargar progresivamente más cajas después de la carga inicial
   useEffect(() => {
-    if (!isFullyLoaded) {
-      const timer = setTimeout(() => {
-        setRows(new Array(70).fill(1));
-        setCols(new Array(70).fill(1));
-        setIsFullyLoaded(true);
-      }, 500); // Retraso para permitir que la página se cargue primero
+    const runBenchmark = () => {
+      const startTime = performance.now();
       
-      return () => clearTimeout(timer);
-    }
-  }, [isFullyLoaded]);
+      // Simple computational task to measure performance
+      let result = 0;
+      for (let i = 0; i < 1000000; i++) {
+        result += Math.sqrt(i);
+      }
+      
+      const endTime = performance.now();
+      const duration = endTime - startTime;
+      
+      // If benchmark takes more than 100ms, consider it a low-performance device
+      setIsLowPerformance(duration > 4);
+    };
 
-  return (
+    runBenchmark();
+    if(!isLowPerformance) {
+      if (!isFullyLoaded) {
+        const timer = setTimeout(() => {
+          setRows(new Array(70).fill(1));
+          setCols(new Array(70).fill(1));
+          setIsFullyLoaded(true);
+        }, 500); // Retraso para permitir que la página se cargue primero
+        
+        return () => clearTimeout(timer);
+      }
+  }
+  }, [isFullyLoaded, isLowPerformance]);
+
+  return ( !isLowPerformance ?
     <div
       style={{
         transform: `translate(-20%,-20%) skewX(-48deg) skewY(14deg) scale(1) rotate(0deg) translateZ(0)`,
@@ -73,7 +93,7 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
         </motion.div>
       ))}
     </div>
-  );
+  : '');
 };
 
 // Componente de carga diferida
