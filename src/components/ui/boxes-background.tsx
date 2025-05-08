@@ -10,9 +10,11 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
   const [rows, setRows] = useState(new Array(initialRows).fill(1));
   const [cols, setCols] = useState(new Array(initialCols).fill(1));
   const [isFullyLoaded, setIsFullyLoaded] = useState(false);
-  const [isLowPerformance, setIsLowPerformance] = useState(true);
+  const isLowPerformance = useRef(true);
+  const isMidPerformance = useRef(true);
   const benchmarkRan = useRef(false);
   const maxDuration = 25;
+  const midDuration = 10;
   
   let colors = [
     "--sky-300",
@@ -45,8 +47,7 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
 
       const endTime = performance.now();
       const duration = endTime - startTime;
-      console.log(`Benchmark duration: ${duration} ms`);
-      setIsLowPerformance(duration > maxDuration);
+      isLowPerformance.current = duration > maxDuration;
 
       return result;
     };
@@ -56,16 +57,17 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
       runBenchmark();
     }
     
-    if(!isLowPerformance) {
+    if(!isLowPerformance.current) {
       if (!isFullyLoaded) {
-        setRows(new Array(70).fill(1));
-        setCols(new Array(70).fill(1));
+        const instances = isMidPerformance.current ? 40 : 70;
+        setRows(new Array(40).fill(1));
+        setCols(new Array(40).fill(1));
         setIsFullyLoaded(true);
       }
   }
-  }, [isFullyLoaded, isLowPerformance]);
+  }, [isFullyLoaded]);
 
-  return ( !isLowPerformance ?
+  return ( !isLowPerformance.current ?
     <div
       style={{
         transform: `translate(-20%,-20%) skewX(-48deg) skewY(14deg) scale(1) rotate(0deg) translateZ(0)`,
