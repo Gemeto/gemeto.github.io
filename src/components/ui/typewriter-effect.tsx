@@ -1,32 +1,53 @@
 "use client";
 
-import  { useState, useEffect } from 'react';
+import  { useState, useEffect, useRef } from 'react';
 
-const useTypewriter = (text, speed = 50) => {
+const useTypewriter = (text, speed, wait) => {
   const [displayText, setDisplayText] = useState('');
+  const isFirstRender = useRef(true);
+  const delayTimeoutRef = useRef(0);
+  const typingIntervalRef = useRef(0);
 
   useEffect(() => {
-    let i = 0;
-    const typingInterval = setInterval(() => {
-      if (i < text.length) {
-        console.log(text.charAt(i));
-        setDisplayText(prevText => text.slice(0, i));
-        i++;
-      } else {
-        clearInterval(typingInterval);
-      }
-    }, speed);
-
-    return () => {
-      clearInterval(typingInterval);
+    // Función para iniciar el efecto de tipeo
+    const startTypingEffect = () => {
+      let i = 0;
+      // Guardar la referencia del intervalo para limpieza
+      typingIntervalRef.current = setInterval(() => {
+        if (i < text.length + 1) {
+          setDisplayText(text.slice(0, i));
+          i++;
+        } else {
+          clearInterval(typingIntervalRef.current);
+        }
+      }, speed);
     };
-  }, [text, speed]);
+
+    // Limpiar temporizadores previos para evitar comportamientos inesperados
+    if (delayTimeoutRef.current) clearTimeout(delayTimeoutRef.current);
+    if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+
+    if (isFirstRender.current) {
+      delayTimeoutRef.current = setTimeout(() => {
+        startTypingEffect();
+        isFirstRender.current = false;
+      }, wait);
+    } else {
+      startTypingEffect();
+    }
+    
+    // Limpiar los temporizadores cuando el componente se desmonte
+    return () => {
+      if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+      if (delayTimeoutRef.current) clearTimeout(delayTimeoutRef.current);
+    };
+  }, [text, speed, wait]);
 
   return displayText;
 };
 
-export const TypewriterEffect = ({ text, speed }) => {
-  const displayText = useTypewriter(text, speed);
+export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
+  const displayText = useTypewriter(text, speed, wait);
 
   return <p style={{ position: 'relative', minHeight: '1.2em' /* Ensures a minimum height */ }}>
     {/* Hidden text to reserve space */}
