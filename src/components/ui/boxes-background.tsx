@@ -12,6 +12,7 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
   const [isFullyLoaded, setIsFullyLoaded] = useState(false);
   const [isLowPerformance, setIsLowPerformance] = useState(true);
   const benchmarkRan = useRef(false);
+  const maxDuration = 25;
   
   let colors = [
     "--sky-300",
@@ -36,7 +37,7 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
       
       let result = 0;
       for (let i = 0; i < 1000000; i++) {
-        if (i % 1000 === 0 && performance.now() - startTime > 10) {
+        if (i % 1000 === 0 && performance.now() - startTime > maxDuration) {
           break;
         }
         result += Math.sqrt(i) * Math.sin(i) / (i + 1);
@@ -45,7 +46,7 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
       const endTime = performance.now();
       const duration = endTime - startTime;
       console.log(`Benchmark duration: ${duration} ms`);
-      setIsLowPerformance(duration > 10);
+      setIsLowPerformance(duration > maxDuration);
 
       return result;
     };
@@ -57,13 +58,9 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
     
     if(!isLowPerformance) {
       if (!isFullyLoaded) {
-        const timer = setTimeout(() => {
-          setRows(new Array(70).fill(1));
-          setCols(new Array(70).fill(1));
-          setIsFullyLoaded(true);
-        }, 500); // Retraso para permitir que la página se cargue primero
-        
-        return () => clearTimeout(timer);
+        setRows(new Array(70).fill(1));
+        setCols(new Array(70).fill(1));
+        setIsFullyLoaded(true);
       }
   }
   }, [isFullyLoaded, isLowPerformance]);
