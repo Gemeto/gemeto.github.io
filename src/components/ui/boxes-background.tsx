@@ -41,7 +41,7 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
       
       const endTime = performance.now();
       const duration = endTime - startTime;
-      
+      console.log(`Benchmark duration: ${duration} ms`);
       setIsLowPerformance(duration > 2);
     };
 
