@@ -30,9 +30,7 @@ export const CardContainer = ({
 
   const updateRotation = () => {
     if (!containerRef.current) return;
-
     containerRef.current.style.transform = `rotateY(${rotationY.current}deg) rotateX(${rotationX.current}deg)`;
-
     if (isMouseEntered) {
       animationRef.current = requestAnimationFrame(updateRotation);
     }
@@ -51,6 +49,9 @@ export const CardContainer = ({
 
     if (!animationRef.current) {
       animationRef.current = requestAnimationFrame(updateRotation);
+    }else {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = requestAnimationFrame(updateRotation);
     }
   };
 
@@ -59,26 +60,31 @@ export const CardContainer = ({
     if (!containerRef.current) return;
     if (!animationRef.current) {
       animationRef.current = requestAnimationFrame(updateRotation);
+    } else {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = requestAnimationFrame(updateRotation);
     }
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
+    const relatedTargetElement = e.relatedTarget as Node | null;
+    const innerCardElement = containerRef.current;
+
+    if (innerCardElement && relatedTargetElement instanceof Node && innerCardElement.contains(relatedTargetElement)) {
+      return;
+    }
+
     setIsMouseEntered(false);
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
+    }
 
     rotationX.current = 0;
     rotationY.current = 0;
-
-    if (!animationRef.current) {
-      animationRef.current = requestAnimationFrame(updateRotation);
+    if (innerCardElement) {
+      innerCardElement.style.transform = `rotateY(0deg) rotateX(0deg)`;
     }
-
-    setTimeout(() => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-        animationRef.current = null;
-      }
-    }, 300);
   };
 
   useEffect(() => {
