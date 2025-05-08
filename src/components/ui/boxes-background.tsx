@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { cn } from "../../utils/cn";
 
@@ -11,6 +11,7 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
   const [cols, setCols] = useState(new Array(initialCols).fill(1));
   const [isFullyLoaded, setIsFullyLoaded] = useState(false);
   const [isLowPerformance, setIsLowPerformance] = useState(true);
+  const benchmarkRan = useRef(false);
   
   let colors = [
     "--sky-300",
@@ -44,7 +45,8 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
       setIsLowPerformance(duration > 2);
     };
 
-    if(isLowPerformance) {
+    if(!benchmarkRan.current) {
+      benchmarkRan.current = true;
       runBenchmark();
     }
     
