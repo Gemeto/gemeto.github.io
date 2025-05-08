@@ -36,13 +36,18 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
       
       let result = 0;
       for (let i = 0; i < 1000000; i++) {
-        result += Math.sqrt(i);
+        if (i % 1000 === 0 && performance.now() - startTime > 10) {
+          break;
+        }
+        result += Math.sqrt(i) * Math.sin(i) / (i + 1);
       }
-      
+
       const endTime = performance.now();
       const duration = endTime - startTime;
       console.log(`Benchmark duration: ${duration} ms`);
-      setIsLowPerformance(duration > 2);
+      setIsLowPerformance(duration > 10);
+
+      return result;
     };
 
     if(!benchmarkRan.current) {
