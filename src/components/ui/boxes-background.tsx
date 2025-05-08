@@ -33,7 +33,6 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
     const runBenchmark = () => {
       const startTime = performance.now();
       
-      // Simple computational task to measure performance
       let result = 0;
       for (let i = 0; i < 1000000; i++) {
         result += Math.sqrt(i);
@@ -42,11 +41,13 @@ export const BoxesCore = ({ className, initialRows = 10, initialCols = 10, ...re
       const endTime = performance.now();
       const duration = endTime - startTime;
       
-      // If benchmark takes more than 100ms, consider it a low-performance device
-      setIsLowPerformance(duration > 4);
+      setIsLowPerformance(duration > 2);
     };
 
-    runBenchmark();
+    if(isLowPerformance) {
+      runBenchmark();
+    }
+    
     if(!isLowPerformance) {
       if (!isFullyLoaded) {
         const timer = setTimeout(() => {
