@@ -1,237 +1,78 @@
 "use client";
 
-import { cn } from "../../utils/cn";
-import { motion, stagger, useAnimate, useInView, AnimatePresence, usePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import  { useState, useEffect } from 'react';
 
-export const TypewriterEffect = ({
-  words,
-  className,
-  cursorClassName,
-}: {
-  words: {
-    text: string;
-    className?: string;
-  }[];
-  className?: string;
-  cursorClassName?: string;
-}) => {
-  // split text inside of words into array of characters
-  const wordsArray = words.map((word) => {
-    return {
-      ...word,
-      text: word.text.split(""),
-    };
-  });
+const useTypewriter = (text, speed = 50) => {
+  const [displayText, setDisplayText] = useState('');
 
-  const [scope, animate] = useAnimate();
-  const isInView = useInView(scope);
   useEffect(() => {
-    if (isInView) {
-      animate(
-        "span",
-        {
-          display: "inline-block",
-          opacity: 1,
-        },
-        {
-          duration: 0.3,
-          delay: stagger(0.1),
-          ease: "easeInOut",
-        }
-      );
-    }
-  }, [isInView]);
+    let i = 0;
+    const typingInterval = setInterval(() => {
+      if (i < text.length) {
+        console.log(text.charAt(i));
+        setDisplayText(prevText => text.slice(0, i));
+        i++;
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, speed);
 
-  const renderWords = () => {
-    return (
-      <motion.div ref={scope} className="inline">
-        {wordsArray.map((word, idx) => {
-          return (
-            <div key={`word-${idx}`} className="inline-block">
-              {word.text.map((char, index) => (
-                <motion.span
-                  initial={{}}
-                  key={`char-${index}`}
-                  className={cn(
-                    `dark:text-white text-black opacity-0 hidden`,
-                    word.className
-                  )}
-                >
-                  {char}
-                </motion.span>
-              ))}
-              &nbsp;
-            </div>
-          );
-        })}
-      </motion.div>
-    );
-  };
-  return (
-    <div
-      className={cn(
-        "text-base sm:text-xl md:text-3xl lg:text-5xl font-bold text-center",
-        className
-      )}
+    return () => {
+      clearInterval(typingInterval);
+    };
+  }, [text, speed]);
+
+  return displayText;
+};
+
+export const TypewriterEffect = ({ text, speed }) => {
+  const displayText = useTypewriter(text, speed);
+
+  return <p style={{ position: 'relative', minHeight: '1.2em' /* Ensures a minimum height */ }}>
+    {/* Hidden text to reserve space */}
+    <span
+      style={{
+        visibility: 'hidden',
+      }}
+      aria-hidden="true"
     >
-      {renderWords()}
-      <motion.span
-        initial={{
-          opacity: 0,
+      {text + "██" || '\u00A0'} {/* Use non-breaking space if text is empty to maintain height */}
+    </span>
+
+    {/* Visible typing animation, absolutely positioned */}
+    <span
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%', // Ensure it spans the full width
+        height: '100%', // Ensure it spans the full height
+      }}
+    >
+      {displayText}
+      <span
+        style={{
+          marginLeft: displayText ? '0.5rem' : '0', // Add margin only if there's text
+          animation: 'blink 1s step-end infinite',
         }}
-        animate={{
-          opacity: 1,
-        }}
-        transition={{
-          duration: 0.8,
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-        className={cn(
-          "inline-block rounded-sm w-[4px] h-4 md:h-6 lg:h-10 bg-blue-500",
-          cursorClassName
-        )}
-      ></motion.span>
-    </div>
-  );
+      >
+        █
+      </span>
+    </span>
+
+    {/* Styles for blink animation */}
+    <style>{`
+      @keyframes blink {
+        from,
+        to {
+          color: transparent;
+        }
+        50% {
+          color: currentColor; /* Use currentColor to inherit text color */
+        }
+      }
+    `}</style>
+  </p>;
 };
 
-export const TypewriterEffectSmooth = ({
-  words,
-  className,
-  cursorClassName,
-}: {
-  words: {
-    text: string;
-    className?: string;
-  }[];
-  className?: string;
-  cursorClassName?: string;
-}) => {
-  // split text inside of words into array of characters
-  const wordsArray = words.map((word) => {
-    return {
-      ...word,
-      text: word.text.split(""),
-    };
-  });
-  const renderWords = () => {
-    return (
-      <div>
-        {wordsArray.map((word, idx) => {
-          return (
-            <div key={`word-${idx}`} className="inline-block">
-              {word.text.map((char, index) => (
-                <span
-                  key={`char-${index}`}
-                  className={cn(`dark:text-white text-black `, word.className)}
-                >
-                  {char}
-                </span>
-              ))}
-              &nbsp;
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
-
-  const [isMobile, setIsMobile] = useState(false);
-  const [whitespace, setWhitespace] = useState("wrap");
-  const [variants, setVariants] = useState({});
-  const [isPresent, safeToRemove] = usePresence();
-  useEffect(() => {
-    if(isPresent){
-        setIsMobile(window.innerWidth < 700);
-        setWhitespace(window.innerWidth < 700 ? "wrap" : "nowrap");
-      }
-    window.addEventListener('resize', function(){
-      if(isPresent && isMobile !== (window.innerWidth < 700)){
-        setIsMobile(window.innerWidth < 700);
-        setWhitespace(window.innerWidth < 700 ? "wrap" : "nowrap");
-      }
-    });
-  }, []);
-  useEffect(() => {
-    if (!isMobile) {
-      setVariants({
-        inView: {
-          width: "fit-content",
-          transition: { //TODO fix this transition not applying due to exit transition prority when back to laptop view //NOT TOO RELEVANT
-            delay: 1,
-            ease: "linear",
-            duration: 2,
-          }
-        },
-        initial: {
-          width: "0%",
-          transition: {
-            delay: 0,
-            duration: 0,
-          }
-        }
-      });
-    } else {
-      setVariants({
-        inView: {
-          width: "fit-content",
-          transition: {
-            delay: 0,
-            duration: 0,
-          }
-        },
-        initial: {
-          width: "fit-content",
-          transition: {
-            delay: 0,
-            duration: 0,
-          }
-        }
-      });
-    }
-  }, [isMobile]);
-
-  return (
-    <div className={cn("flex space-x-1 md:aspect-[64.5/6.00]", className)}>
-      <AnimatePresence>
-        <motion.div
-          key={whitespace}
-          variants={variants}
-          className="overflow-hidden pb-2"
-          initial="initial"
-          exit={{ width: "0%", transition: {delay: 0, duration: 0} }}
-          whileInView="inView"
-        >
-          <div
-            className="text-base font-medium text-balance"
-            style={{
-              whiteSpace: whitespace,
-            }}
-          >
-            {renderWords()}{" "}
-          </div>{" "}
-        </motion.div>
-      </AnimatePresence>
-      <motion.span
-        initial={{
-          opacity: 0,
-        }}
-        animate={{
-          opacity: 1,
-        }}
-        transition={{
-          duration: 0.8,
-
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-        className={cn(
-          "block rounded-sm w-[4px] h-6 bg-blue-500",
-          cursorClassName
-        )}
-      ></motion.span>
-    </div>
-  );
-};
+export default TypewriterEffect;

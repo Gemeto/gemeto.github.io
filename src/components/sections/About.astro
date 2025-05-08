@@ -3,10 +3,21 @@ import Section from "../Section.astro"
 
 import { basics } from "../../../cv.json"
 const { summary } = basics
+
+const paragraphs = summary
+  .split('\n')
+  .map(paragraph => paragraph.trim())
+  .filter(paragraph => paragraph.length > 0)
 ---
 
 <Section title="Sobre mí">
-  <p class="z-20">
-    {summary}
-  </p>
+  {paragraphs.map((paragraph) => (
+    <p>{paragraph}</p>
+  ))}
 </Section>
+
+<style>  
+  p {
+    margin-block: 1lh !important;
+  }
+</style>
