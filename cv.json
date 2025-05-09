@@ -110,12 +110,12 @@
       "name": "Java",
       "level": "Intermedio",
       "keywords": [
-        "Desarrollo Web", "Desarrollo Desktop", "Desarrollo Mobile", "Backend", "Frontend", "Fullstack"
+        "Desarrollo Web", "Desarrollo Desktop", "Desarrollo Mobile", "Backend"
       ]
     },
     {
       "name": "Tailwind",
-      "level": "Principiante",
+      "level": "Avanzado",
       "keywords": [
         "Desarrollo Web", "Frontend", "CSS Framework", "Diseño Responsive"
       ]
@@ -157,7 +157,7 @@
     },
     {
       "name": "React",
-      "level": "Principiante",
+      "level": "Intermedio",
       "keywords": [
         "Desarrollo Web", "Frontend", "JavaScript Library", "UI"
       ]
@@ -245,6 +245,6 @@
       ],
       "url": "https://github.com/Gemeto/PhPYiiFoodDB",
       "github": "https://github.com/Gemeto/PhPYiiFoodDB"
-    },
+    }
   ]
 }
