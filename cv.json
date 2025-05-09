@@ -198,30 +198,6 @@
       "github": "https://github.com/Gemeto/SpainHouses"
     },
     {
-      "name": "Minijuego easter egg",
-      "isActive": false,
-      "description": "Pequeño videojuego para Android desarrollado para un proyecto universitario, con servidor para modo online y un easter egg al pulsar a tu personaje!",
-      "highlights": [
-        "Java",
-        "Android",
-        "LibGDX"
-      ],
-      "url": "https://github.com/Gemeto/Libgdx-minigames",
-      "github": "https://github.com/Gemeto/Libgdx-minigames"
-    },
-    {
-      "name": "BD de alimentación",
-      "isActive": false,
-      "description": "Una pequeña web de practicas hecha con Yii 1, con una sencilla interfaz para visualizar y gestionar una base de datos relacionada con alimentos y sus posibles riesgos sanitarios.",
-      "highlights": [
-        "PHP",
-        "Yii",
-        "MySQL"
-      ],
-      "url": "https://github.com/Gemeto/PhPYiiFoodDB",
-      "github": "https://github.com/Gemeto/PhPYiiFoodDB"
-    },
-    {
       "name": "RASFF RSS Notifier",
       "isActive": true,
       "description": "Aplicación Android que recopila los ultimos avisos del sistema RASFF referentes a España. Permite al usuario visualizar los ultimos avisos y recibir notificaciones cuando exista alguno nuevo.",
@@ -245,6 +221,30 @@
       ],
       "url": "https://github.com/Gemeto/AgendaApp",
       "github": "https://github.com/Gemeto/AgendaApp"
-    }
+    },
+    {
+      "name": "Minijuego easter egg",
+      "isActive": false,
+      "description": "Pequeño videojuego para Android desarrollado para un proyecto universitario, con servidor para modo online y un easter egg al pulsar a tu personaje!",
+      "highlights": [
+        "Java",
+        "Android",
+        "LibGDX"
+      ],
+      "url": "https://github.com/Gemeto/Libgdx-minigames",
+      "github": "https://github.com/Gemeto/Libgdx-minigames"
+    },
+    {
+      "name": "BD de alimentación",
+      "isActive": false,
+      "description": "Una pequeña web de practicas hecha con Yii 1, con una sencilla interfaz para visualizar y gestionar una base de datos relacionada con alimentos y sus posibles riesgos sanitarios.",
+      "highlights": [
+        "PHP",
+        "Yii",
+        "MySQL"
+      ],
+      "url": "https://github.com/Gemeto/PhPYiiFoodDB",
+      "github": "https://github.com/Gemeto/PhPYiiFoodDB"
+    },
   ]
 }
