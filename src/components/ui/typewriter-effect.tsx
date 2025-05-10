@@ -74,6 +74,7 @@ export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
 
     {/* Visible typing animation, absolutely positioned */}
     <span
+      className="typewritter-animation"
       style={{
         position: 'absolute',
         top: 0,
@@ -84,7 +85,7 @@ export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
     >
       {displayText}
       <span
-        className="typewritter-cursor"
+        className="typewritter-animation"
         style={{
           marginLeft: displayText ? '0.5rem' : '0', // Add margin only if there's text
           animation: 'blink 1s step-end infinite',
@@ -97,7 +98,7 @@ export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
     {/* Styles for blink animation */}
     <noscript>
       <style>{`
-        .typewritter-cursor {
+        .typewritter-animation {
           visibility: hidden !important;
         }
         .typewritter-placeholder {
@@ -117,7 +118,7 @@ export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
       }
 
       /* Desactiva animaciones si el usuario prefiere reducir movimiento */
-      :root.reduced-motion .typewritter-cursor {
+      :root.reduced-motion .typewritter-animation {
           visibility: hidden !important;
       }
       :root.reduced-motion .typewritter-placeholder {
