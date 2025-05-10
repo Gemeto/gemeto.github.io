@@ -34,70 +34,6 @@ import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
   if (prefersReducedMotion) {
     document.documentElement.classList.add('reduced-motion');
   }
-</script>
-
-<style>
-  section {
-    position: relative;
-    max-width: 900px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* Quitamos scroll-snap-align para usar solo el scroll global */
-    transition: transform 0.5s ease, scale 0.5s ease;
-  }
-
-  h2 {
-    margin-bottom: 8px;
-    font-weight: 700;
-    line-height: 1.5;
-    font-size: 2rem;
-  }
-
-  @media (width <= 700px) {
-    section {
-      margin-bottom: 38px;
-      min-height: auto;
-    }
-  }
-
-  /* Sistema de animación mejorado sin depender de scroll-snap */
-  .slide-section {
-    opacity: 0;
-    transform: translateX(500px) scale(0.1);
-  }
-
-  /* Clase que se aplicará después para iniciar las animaciones */
-  .slide-section.animate {
-    opacity: 1;
-    transform: translateX(0) scale(0.9);
-    animation: slideIn 0.6s ease forwards;
-    animation-delay: calc(var(--section-index, 0) * 0.5s);
-  }
-
-  /* Clase que se aplica cuando la sección está en foco */
-  .slide-section.in-focus {
-    transform: translateX(0) scale(1);
-    z-index: 10;
-  }
-
-  /* Desactiva animaciones si el usuario prefiere reducir movimiento */
-  :root.reduced-motion .slide-section {
-    opacity: 1;
-    transform: none;
-    animation: none;
-    transition: none;
-  }
-</style>
-
-<script>
-  // Detecta preferencias de reducción de movimiento
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  
-  if (prefersReducedMotion) {
-    document.documentElement.classList.add('reduced-motion');
-  }
 
   // Asignar índices a cada sección y activar animaciones
   document.addEventListener('DOMContentLoaded', () => {
@@ -116,3 +52,67 @@ import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
     }, 500);
   });
 </script>
+
+{/* Contenido y estilos para cuando JavaScript está DESHABILITADO */}
+<noscript>
+  <style>
+    .slide-section {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+      transition: none !important;
+    }
+  </style>
+</noscript>
+
+<style>
+  section {
+    position: relative;
+    max-width: 900px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.5s ease, scale 0.5s ease;
+  }
+
+  h2 {
+    margin-bottom: 8px;
+    font-weight: 700;
+    line-height: 1.5;
+    font-size: 2rem;
+  }
+
+  @media (width <= 700px) {
+    section {
+      margin-bottom: 38px;
+      min-height: auto;
+    }
+  }
+
+  .slide-section {
+    opacity: 0;
+    transform: translateX(500px) scale(0.1);
+  }
+
+  /* Clase que se aplicará después para iniciar las animaciones */
+  .slide-section.animate {
+    opacity: 1;
+    transform: translateX(0) scale(0.9);
+    animation: slideIn 0.6s ease forwards;
+    animation-delay: calc(var(--section-index, 0) * 0.5s);
+  }
+
+  /* Clase que se aplica cuando la sección está en foco */
+  .slide-section.in-focus {
+    transform: translateX(0) scale(1);
+  }
+
+  /* Desactiva animaciones si el usuario prefiere reducir movimiento */
+  :root.reduced-motion .slide-section {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+</style>

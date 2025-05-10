@@ -52,13 +52,25 @@ export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
   return <p style={{ position: 'relative', minHeight: '1.2em' /* Ensures a minimum height */ }}>
     {/* Hidden text to reserve space */}
     <span
+      className="placeholder"
       style={{
         visibility: 'hidden',
       }}
       aria-hidden="true"
     >
-      {text + "██" || '\u00A0'} {/* Use non-breaking space if text is empty to maintain height */}
+      {text || '\u00A0'} {/* Use non-breaking space if text is empty to maintain height */}
     </span>
+    <span
+        className="placeholder"
+        aria-hidden="true"
+        style={{
+          visibility: 'hidden',
+          marginLeft: displayText ? '0.5rem' : '0', // Add margin only if there's text
+          animation: 'blink 1s step-end infinite',
+        }}
+      >
+        █
+      </span>
 
     {/* Visible typing animation, absolutely positioned */}
     <span
@@ -82,6 +94,16 @@ export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
     </span>
 
     {/* Styles for blink animation */}
+    <noscript>
+      <style>{`
+        span {
+          visibility: hidden !important;
+        }
+        .placeholder {
+          visibility: visible !important;
+        }`}
+      </style>
+    </noscript>
     <style>{`
       @keyframes blink {
         from,
@@ -91,6 +113,14 @@ export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
         50% {
           color: currentColor; /* Use currentColor to inherit text color */
         }
+      }
+
+      /* Desactiva animaciones si el usuario prefiere reducir movimiento */
+      :root.reduced-motion span {
+          visibility: hidden !important;
+      }
+      :root.reduced-motion .placeholder {
+        visibility: visible !important;
       }
     `}</style>
   </p>;
