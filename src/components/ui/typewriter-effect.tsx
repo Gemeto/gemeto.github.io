@@ -52,7 +52,7 @@ export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
   return <p style={{ position: 'relative', minHeight: '1.2em' /* Ensures a minimum height */ }}>
     {/* Hidden text to reserve space */}
     <span
-      className="placeholder"
+      className="typewritter-placeholder"
       style={{
         visibility: 'hidden',
       }}
@@ -61,7 +61,7 @@ export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
       {text || '\u00A0'} {/* Use non-breaking space if text is empty to maintain height */}
     </span>
     <span
-        className="placeholder"
+        className="typewritter-placeholder"
         aria-hidden="true"
         style={{
           visibility: 'hidden',
@@ -84,6 +84,7 @@ export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
     >
       {displayText}
       <span
+        className="typewritter-cursor"
         style={{
           marginLeft: displayText ? '0.5rem' : '0', // Add margin only if there's text
           animation: 'blink 1s step-end infinite',
@@ -96,10 +97,10 @@ export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
     {/* Styles for blink animation */}
     <noscript>
       <style>{`
-        span {
+        .typewritter-cursor {
           visibility: hidden !important;
         }
-        .placeholder {
+        .typewritter-placeholder {
           visibility: visible !important;
         }`}
       </style>
@@ -116,10 +117,10 @@ export const TypewriterEffect = ({ text, speed = 50, wait = 2000 }) => {
       }
 
       /* Desactiva animaciones si el usuario prefiere reducir movimiento */
-      :root.reduced-motion span {
+      :root.reduced-motion .typewritter-cursor {
           visibility: hidden !important;
       }
-      :root.reduced-motion .placeholder {
+      :root.reduced-motion .typewritter-placeholder {
         visibility: visible !important;
       }
     `}</style>
