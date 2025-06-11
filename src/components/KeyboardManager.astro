@@ -133,6 +133,27 @@ const profilesInfo = profiles.map(({ network, url }) => {
         window.print()
       }
     },
+    {
+      id: "crystal",
+      title: "Modo de cristal",
+      icon: `<svg style="margin-right: 8px" width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L8 6l4 4 4-4-4-4zM2 12l4 4-4 4 4-4-4-4zM22 12l-4 4 4 4-4-4 4-4zM12 22l4-4-4-4-4 4 4 4zM12 12l2.828-2.828L12 6.343 9.172 9.172 12 12z" />
+    </svg>`,
+      hotkey: "ctrl+T",
+      section: "Acciones",
+      handler: () => {
+        let cards = document.getElementsByClassName("group/card")
+        console.log(cards)
+        for (let i = 0; i < cards.length; i++) {
+          const card = cards[i] as HTMLElement
+          if(card.classList.contains("card")) {
+            card.classList.remove("card")
+          } else {
+            card.classList.add("card")
+          }
+        }
+      }
+    },
     ...data
   ])
 

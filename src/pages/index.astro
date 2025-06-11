@@ -35,9 +35,9 @@ const { name, label } = basics
         <Boxes client:visible />
         <ThreejsBall />
         <Hero />
+          <Skills />
         <Experience />
         <Projects />
-        <Skills />
         <Education />
         <About />
     </div>
@@ -146,11 +146,17 @@ document.addEventListener('DOMContentLoaded', () => {
       section.classList.remove('in-focus');
     });
     
-    // Activar la sección más cercana al centro
+    // Activar la sección más cercana al centro y las de alrededor
     if (sections[closestSectionIndex]) {
       sections[closestSectionIndex].classList.add('in-focus');
     if(sections[closestSectionIndex-1] !== undefined){
         sections[closestSectionIndex-1].classList.add('in-focus');
+    }
+    if(sections[closestSectionIndex+1] !== undefined){
+        sections[closestSectionIndex+1].classList.add('in-focus');
+    }
+    if(sections[closestSectionIndex+2] !== undefined){
+        sections[closestSectionIndex+2].classList.add('in-focus');
     }
       currentIndex = closestSectionIndex;
     }

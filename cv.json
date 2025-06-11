@@ -100,6 +100,13 @@
       ]
     },
     {
+      "name": "Flutter",
+      "level": "Intermedio",
+      "keywords": [
+        "Desarrollo Multiplataforma", "Widgets"
+      ]
+    },
+    {
       "name": "Kotlin",
       "level": "Intermedio",
       "keywords": [
@@ -107,17 +114,24 @@
       ]
     },
     {
-      "name": "C#",
-      "level": "Intermedio",
-      "keywords": [
-        "Desarrollo Web", "Desarrollo Desktop", "Backend"
-      ]
-    },
-    {
       "name": "Java",
       "level": "Intermedio",
       "keywords": [
         "Desarrollo Web", "Desarrollo Desktop", "Desarrollo Mobile", "Backend"
+      ]
+    },
+    {
+      "name": "Python",
+      "level": "Intermedio",
+      "keywords": [
+        "Desarrollo Web", "Backend", "Data Science", "Machine Learning"
+      ]
+    },
+    {
+      "name": "C#",
+      "level": "Intermedio",
+      "keywords": [
+        "Desarrollo Web", "Desarrollo Desktop", "Backend"
       ]
     },
     {
@@ -235,6 +249,22 @@
       ],
       "url": "https://github.com/Gemeto/AgendaApp",
       "github": "https://github.com/Gemeto/AgendaApp"
+    },
+    {
+      "name": "Ecommerce app",
+      "isActive": false,
+      "description": "Aplicación tipo ecommerce multiplataforma con fetch de datos, UI/UX profesional e integraciones con sistemas de firebase",
+      "highlights": [
+        "Dart",
+        "Flutter",
+        "Android",
+        "iOS",
+        "Web",
+        "Widgets",
+        "Firebase"
+      ],
+      "url": "https://github.com/Gemeto/ecommerceApp",
+      "github": "https://github.com/Gemeto/ecommerceApp"
     },
     {
       "name": "Minijuego easter egg",
