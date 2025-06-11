@@ -146,10 +146,10 @@ const profilesInfo = profiles.map(({ network, url }) => {
         console.log(cards)
         for (let i = 0; i < cards.length; i++) {
           const card = cards[i] as HTMLElement
-          if(card.classList.contains("card")) {
-            card.classList.remove("card")
+          if(card.classList.contains("crystal-background")) {
+            card.classList.remove("crystal-background")
           } else {
-            card.classList.add("card")
+            card.classList.add("crystal-background")
           }
         }
       }

@@ -1,12 +1,12 @@
 {
   "basics": {
     "name": "Daniel Martínez Valeriano",
-    "label": "Full Stack Developer with over 4 years of experience",
+    "label": "Full Stack Developer with over 5 years of experience",
     "image": "./me.webp",
     "email": "skaitdan@gmail.com",
     "phone": "+34 630971007",
     "url": "https://github.com/gemeto",
-    "summary": "With more than 4 years of experience as a Web Developer, I reside in Palma de Mallorca, Spain. My work spans various environments: from creating custom desktop and mobile applications for different clients to web development for a no-code e-commerce services company.",
+    "summary": "Over 5 years of experience as a Web Developer. I live in Palma de Mallorca, Spain.\nI've worked in different environments: from creating custom desktop and mobile applications for various clients to web development for a no-code e-commerce platform service company.",
     "location": {
       "address": "",
       "postalCode": "07600",
@@ -30,35 +30,38 @@
   "work": [
     {
       "name": "Palbin",
-      "position": "Web Programmer",
-      "url": "https://palbin.es",
+      "position": "Web Developer - PHP, JS, HTML, CSS, Dart, Flutter",
+      "url": "https://palbin.com",
       "startDate": "2020-08-01",
       "endDate": "2025-01-01",
-      "summary": "Palbin is a company dedicated to maintaining and developing an e-commerce platform that allows the creation of online stores. It caters to a general audience, with functionalities initially implemented privately based on user feedback and later added to the website. During my time here, I worked with PHP, JS, HTML, and CSS for web implementations, as well as Dart and Flutter for mobile app development. I spent 3 years at this company.",
+      "summary": "Company that offers e-commerce services, mainly no-code store creation. I was responsible for analyzing new features that add value to the platform, designing the final solution and implementing it, as well as maintaining existing features.\nI worked with PHP, JS, HTML, and CSS for web implementations, and Dart and Flutter for mobile app development.",
       "highlights": []
     },
     {
       "name": "Softline",
-      "position": "Desktop & Mobile Programmer",
+      "position": "Desktop & Mobile Developer - WinDev",
       "url": "https://softline.es",
       "startDate": "2019-09-01",
       "endDate": "2020-08-01",
-      "summary": "Softline is a Mallorca-based company specializing in custom software development for small businesses. During my time here, I learned to use the WinDev language for desktop development on Windows and mobile development for Android.",
+      "summary": "SoftLine is a company based in Mallorca dedicated to developing custom software for small businesses. Here I learned to use the WinDev language to develop desktop applications for Windows and mobile apps for Android.",
       "highlights": []
     }
   ],
-  "education": [{
+  "education": [
+    {
       "institution": "Uniovi",
       "url": "https://www.uniovi.es",
-      "area": "Software Engineer",
+      "area": "Software Engineering",
       "studyType": "Bachelor",
       "startDate": "2015-09-01",
       "endDate": "2020-10-30",
-      "score": "8.0",
+      "score": "9.0",
       "courses": [
-        "Python certification"
+        "Python certification",
+        "AWS certification"
       ]
-    }],
+    }
+  ],
   "awards": [{}],
   "certificates": [
     {
@@ -73,93 +76,87 @@
     {
       "name": "HTML",
       "level": "Advanced",
-      "keywords": [
-        "Web Development", "Frontend"
-      ]
+      "keywords": ["Web Development", "Frontend"]
     },
     {
       "name": "CSS",
-      "level": "Intermediate",
-      "keywords": [
-        "Web Development", "Frontend", "Responsive Design"
-      ]
+      "level": "Advanced",
+      "keywords": ["Web Development", "Frontend", "Responsive Design"]
     },
     {
       "name": "JavaScript",
-      "level": "Intermediate",
-      "keywords": [
-        "Web Development", "Frontend", "Backend", "Fullstack"
-      ]
+      "level": "Advanced",
+      "keywords": ["Web Development", "Frontend", "Backend", "Fullstack"]
     },
     {
       "name": "Php",
       "level": "Advanced",
-      "keywords": [
-        "Web Development", "Backend", "Frontend", "Fullstack"
-      ]
+      "keywords": ["Web Development", "Backend", "Frontend", "Fullstack"]
     },
     {
-      "name": "C#",
+      "name": "Flutter",
       "level": "Intermediate",
-      "keywords": [
-        "Web Development", "Desktop Development", "Backend"
-      ]
+      "keywords": ["Cross-platform Development", "Widgets"]
+    },
+    {
+      "name": "Kotlin",
+      "level": "Intermediate",
+      "keywords": ["Mobile Development", "Android", "Jetpack Compose", "Web Development"]
     },
     {
       "name": "Java",
       "level": "Intermediate",
-      "keywords": [
-        "Web Development", "Desktop Development", "Mobile Development", "Backend", "Frontend", "Fullstack"
-      ]
+      "keywords": ["Web Development", "Desktop Development", "Mobile Development", "Backend"]
+    },
+    {
+      "name": "Python",
+      "level": "Intermediate",
+      "keywords": ["Web Development", "Backend", "Data Science", "Machine Learning"]
+    },
+    {
+      "name": "C#",
+      "level": "Intermediate",
+      "keywords": ["Web Development", "Desktop Development", "Backend"]
     },
     {
       "name": "Tailwind",
-      "level": "Beginner",
-      "keywords": [
-        "Web Development", "Frontend", "CSS Framework", "Responsive Design"
-      ]
+      "level": "Advanced",
+      "keywords": ["Web Development", "Frontend", "CSS Framework", "Responsive Design"]
+    },
+    {
+      "name": "React",
+      "level": "Intermediate",
+      "keywords": ["Web Development", "Frontend", "JavaScript Library", "UI"]
     },
     {
       "name": "TypeScript",
       "level": "Intermediate",
-      "keywords": [
-        "Web Development", "Frontend", "Backend", "JavaScript Superset"
-      ]
+      "keywords": ["Web Development", "Frontend", "Backend", "JavaScript Superset"]
     },
     {
       "name": "Node",
       "level": "Intermediate",
-      "keywords": [
-        "Web Development", "Backend", "JavaScript", "Server"
-      ]
+      "keywords": ["Web Development", "Backend", "JavaScript", "Server"]
     },
     {
       "name": "MySQL",
       "level": "Advanced",
-      "keywords": [
-        "Database Management", "SQL", "Data Storage", "Backend"
-      ]
+      "keywords": ["Databases", "SQL", "Data Storage", "Backend"]
     },
     {
       "name": "Git",
       "level": "Advanced",
-      "keywords": [
-        "Version Control", "Collaboration", "Source Code"
-      ]
+      "keywords": ["Version Control", "Collaboration", "Source Code"]
     },
     {
       "name": "GitHub",
       "level": "Advanced",
-      "keywords": [
-        "Version Control", "Collaboration", "Source Code", "Git"
-      ]
+      "keywords": ["Version Control", "Collaboration", "Source Code", "Git"]
     },
     {
-      "name": "React",
-      "level": "Beginner",
-      "keywords": [
-        "Web Development", "Frontend", "JavaScript Library", "UI"
-      ]
+      "name": "Docker",
+      "level": "Intermediate",
+      "keywords": ["Containerization", "Deployment", "Virtualization"]
     }
   ],
   "languages": [
@@ -175,10 +172,7 @@
   "interests": [
     {
       "name": "Wildlife",
-      "keywords": [
-        "Ferrets",
-        "Unicorns"
-      ]
+      "keywords": ["Ferrets", "Unicorns"]
     }
   ],
   "references": [
@@ -191,48 +185,50 @@
     {
       "name": "Spain Houses",
       "isActive": true,
-      "description": "Modular application for extracting, analyzing, and visualizing housing data in Spain. It allows users to search for houses in different provinces and filter by various criteria. The application connects to a REST API to obtain data and uses a MongoDB database to store results.",
-      "highlights": [
-        "Python",
-        "MongoDB",
-        "Machine Learning"
-      ],
+      "description": "Modular application for extracting, analyzing, and visualizing housing data in Spain. It allows users to search for properties across different provinces and filter by various criteria. The application connects to a REST API to fetch data and uses a MongoDB database to store results.",
+      "highlights": ["Python", "MongoDB", "Machine Learning"],
       "url": "https://github.com/Gemeto/SpainHouses",
       "github": "https://github.com/Gemeto/SpainHouses"
     },
     {
-      "name": "Easter egg mini-game",
-      "isActive": false,
-      "description": "Small Android video game developed for a university project, featuring an online mode server and an easter egg when tapping on your character!",
-      "highlights": [
-        "Android",
-        "LibGDX"
-      ],
-      "url": "https://github.com/Gemeto/Libgdx-minigames",
-      "github": "https://github.com/Gemeto/Libgdx-minigames"
-    },
-    {
-      "name": "Food database (BD de alimentación)",
-      "isActive": false,
-      "description": "A web application with a simple interface for viewing and managing a database related to food and its potential health risks.",
-      "highlights": [
-        "PHP",
-        "Yii"
-      ],
-      "url": "https://github.com/Gemeto/PhPYiiFoodDB",
-      "github": "https://github.com/Gemeto/PhPYiiFoodDB"
+      "name": "RASFF RSS Notifier",
+      "isActive": true,
+      "description": "Android app that collects the latest RASFF alerts related to Spain. Allows users to view the latest alerts and receive notifications when new ones are published.",
+      "highlights": ["Kotlin", "Android", "Jetpack Compose", "Material 3 Expressive"],
+      "url": "https://github.com/Gemeto/RASFF-RSS-Notifier/",
+      "github": "https://github.com/Gemeto/RASFF-RSS-Notifier/"
     },
     {
       "name": "Agenda app",
       "isActive": false,
-      "description": "An Android application for managing tasks as an agenda. It also activates phone alarms upon user request without leaving the app.",
-      "highlights": [
-        "Android",
-        "Material Design"
-      ],
+      "description": "Android app to manage tasks like an agenda, also activates phone alarms on request without leaving the app.",
+      "highlights": ["Kotlin", "Android", "Material Design"],
       "url": "https://github.com/Gemeto/AgendaApp",
       "github": "https://github.com/Gemeto/AgendaApp"
+    },
+    {
+      "name": "Ecommerce app",
+      "isActive": false,
+      "description": "Cross-platform ecommerce app with data fetching, professional UI/UX and Firebase integration.",
+      "highlights": ["Dart", "Flutter", "Android", "iOS", "Web", "Widgets", "Firebase"],
+      "url": "https://github.com/Gemeto/ecommerceApp",
+      "github": "https://github.com/Gemeto/ecommerceApp"
+    },
+    {
+      "name": "Minigame easter egg",
+      "isActive": false,
+      "description": "Small Android video game developed for a university project, featuring an online mode server and an easter egg when tapping your character!",
+      "highlights": ["Java", "Android", "LibGDX"],
+      "url": "https://github.com/Gemeto/Libgdx-minigames",
+      "github": "https://github.com/Gemeto/Libgdx-minigames"
+    },
+    {
+      "name": "Food DB",
+      "isActive": false,
+      "description": "A small practice web app made with Yii 1, with a simple interface to view and manage a database related to foods and their potential health risks.",
+      "highlights": ["PHP", "Yii", "MySQL", "JS", "HTML", "CSS"],
+      "url": "https://github.com/Gemeto/PhPYiiFoodDB",
+      "github": "https://github.com/Gemeto/PhPYiiFoodDB"
     }
   ]
 }
-
